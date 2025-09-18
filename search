@@ -30,4 +30,5 @@ for h, u in supreme_court_cases:
 print("\nHigh Court Cases:")
 for h, u in high_court_cases:
     print("-", h, "|", u)
+Add search
 
