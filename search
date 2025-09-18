@@ -1,1 +1,33 @@
+legal_news = [
+    # Example format: (headline, url)
+    ("Supreme Court upholds 25% domicile reservation at National Law University, Jodhpur", "https://www.barandbench.com/news/litigation/supreme-court-upholds-25-domicile-reservation-at-national-law-university-jodhpur"),
+    ("P&H High Court orders removal of accused's name from court records after exoneration in Section 498A case", "https://www.barandbench.com/news/ph-high-court-orders-removal-of-accuseds-name-from-court-records-after-exoneration-in-section-498a-case"),
+    ("Live from DAW 2025: Inaugural Session of the 3rd Edition of Delhi Arbitration Weekend", "https://www.scconline.com/blog/post/2025/09/18/live-daw-2025-inaugural-session-3rd-edition-delhi-arbitration-weekend/")
+    # ... Add more
+]
+
+articles = []
+supreme_court_cases = []
+high_court_cases = []
+
+for headline, url in legal_news:
+    headline_lower = headline.lower()
+    if 'supreme court' in headline_lower:
+        supreme_court_cases.append((headline, url))
+    elif 'high court' in headline_lower or 'hc' in headline_lower:
+        high_court_cases.append((headline, url))
+    else:
+        articles.append((headline, url))
+
+print("Articles:")
+for h, u in articles:
+    print("-", h, "|", u)
+
+print("\nSupreme Court Cases:")
+for h, u in supreme_court_cases:
+    print("-", h, "|", u)
+
+print("\nHigh Court Cases:")
+for h, u in high_court_cases:
+    print("-", h, "|", u)
 
