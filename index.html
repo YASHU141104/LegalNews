@@ -54,6 +54,7 @@
     ];
     const rss2json = url => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
     let allNews = [];
+
     function setStatus(msg) {
       document.getElementById('statusMsg').textContent = msg || '';
     }
@@ -64,6 +65,13 @@
     }
     function getImg(item) {
       return (item.thumbnail || (item.enclosure && item.enclosure.link) || "");
+    }
+    function makeSlug(str) {
+      return (str||"").toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .replace(/--+/g, '-')
+        .substring(0, 70);
     }
     function getTodayStories(news) {
       const now = new Date();
@@ -89,7 +97,7 @@
             ${img ? `<img src="${img}" style="width:120px;height:120px;object-fit:cover;border-radius:1em;border:1.7px solid #eee;flex-shrink:0;">` : ""}
             <div style="flex:1">
               <div style="color:#B30348; font-weight:700; font-size:1.14em;margin-bottom:0.17em;">Today's Top Story</div>
-              <a href="${story.link}" target="_blank" style="color:#244e86;font-size:1.3em;font-weight:700;text-decoration:underline;display:block;">${story.title}</a>
+              <a href="news.html?slug=${story.slug}" style="color:#244e86;font-size:1.3em;font-weight:700;text-decoration:underline;display:block;">${story.title}</a>
               <div style="color:#212121;font-size:1.04em;margin-top:0.25em;">${cleanDesc(story.description || story.content || "")}</div>
             </div>
           </div>
@@ -124,7 +132,7 @@
             html += `<div class="news-card">
               ${img ? `<img class="news-img" src="${img}" loading="lazy" alt="news photo">` : ""}
               <div class="news-content">
-                <a href="${item.link}" target="_blank">${item.title}</a>
+                <a href="news.html?slug=${item.slug}" class="details-link">${item.title}</a>
                 <div class="desc">${cleanDesc(item.description || item.content || "")}</div>
               </div>
             </div>`;
@@ -157,10 +165,12 @@
     }
     async function insertLatestNews(newsArray) {
       for (const item of newsArray) {
+        // Generate slug for new news item
+        item.slug = makeSlug(item.title);
         let { data: existing } = await supabase
           .from('news')
           .select('id')
-          .eq('link', item.link)
+          .eq('slug', item.slug)
           .maybeSingle();
         if (!existing) {
           let { error } = await supabase
@@ -185,7 +195,8 @@
               description: item.description || item.content || "",
               pubdate: item.pubDate || null,
               thumbnail: item.thumbnail || "",
-              enclosure: item.enclosure || null
+              enclosure: item.enclosure || null,
+              slug: makeSlug(item.title)
             }))
           )
           .catch(() => [])
@@ -214,7 +225,6 @@
           (item.title && item.title.toLowerCase().includes(q))
           || (item.description && item.description.toLowerCase().includes(q))
       );
-      // Hide carousel when searching
       renderTopCarousel([]);
       renderGroupedNews(filtered);
     });
