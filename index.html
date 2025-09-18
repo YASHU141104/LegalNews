@@ -12,6 +12,11 @@
       padding: 2em 10vw;
       min-width: 340px;
     }
+    #searchInstructions {
+      font-size: 1em;
+      color: #013266;
+      margin-bottom: 0.8em;
+    }
     #searchBar {
       width: 340px;
       padding: 1em 1em;
@@ -58,10 +63,11 @@
   </style>
 </head>
 <body>
-  <p style="font-size:1em; color:#013266;">
-  Type to search for law news.<br>
-  All results come from top open legal news sources (Bar & Bench, LiveLaw, SCC Times).
-</p>
+  <p id="searchInstructions">
+    Type to find the latest law news.<br>
+    Results are from top open legal news sources: Bar & Bench, LiveLaw, SCC Times.<br>
+    Click a headline to read the original article.
+  </p>
   <input type="text" id="searchBar" placeholder="Search news..." autocomplete="off" />
   <div id="law-news">Fetching news...</div>
   <script>
@@ -76,13 +82,17 @@
 
     function renderNews(news) {
       let html = "<h2>Latest Law News</h2>";
-      news.forEach(item => {
-        html += `<p>
-          <a href="${item.link}" target="_blank">${item.title}</a>
-          <br>
-          <small>${item.pubDate ? new Date(item.pubDate).toLocaleString() : ''}</small>
-        </p>`;
-      });
+      if (news.length === 0) {
+        html += "<p>No news found for your search.</p>";
+      } else {
+        news.forEach(item => {
+          html += `<p>
+            <a href="${item.link}" target="_blank">${item.title}</a>
+            <br>
+            <small>${item.pubDate ? new Date(item.pubDate).toLocaleString() : ''}</small>
+          </p>`;
+        });
+      }
       document.getElementById('law-news').innerHTML = html;
     }
 
@@ -97,7 +107,7 @@
             pubDate: item.pubDate
           }))
         )
-        .catch(e => [])
+        .catch(() => [])
       )
     ).then(results => {
       allNews = results.flat();
