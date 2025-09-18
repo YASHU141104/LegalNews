@@ -2,100 +2,61 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Law News Dashboard</title>
+  <title>Law News</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
       background: #f4f7fa;
-      font-family: 'Segoe UI', Arial, sans-serif;
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 2em 10vw;
-      min-width: 340px;
-    }
-    #searchInstructions {
-      font-size: 1em;
-      color: #013266;
-      margin-bottom: 0.8em;
     }
     #searchBar {
       width: 340px;
-      padding: 1em 1em;
+      padding: 1em;
       font-size: 1.1em;
       border: 2px solid #4670ab;
       border-radius: 8px;
-      outline: none;
       box-shadow: 0 2px 14px #00336615;
-      transition: border-color 0.2s;
       margin-bottom: 2em;
       display: block;
-    }
-    #searchBar:focus {
-      border-color: #003366;
+      margin-left: auto;
+      margin-right: auto;
     }
     #law-news {
-      width: 100%;
       max-width: 850px;
-      background: #fff;
-      padding: 2em 2em;
-      border-radius: 12px;
-      box-shadow: 0 2px 16px #0002;
-      margin-top: 1.5em;
-    }
-    #law-news h2 {
-      margin-top: 0.5em;
-      color: #131a30;
-    }
-    #law-news p {
-      font-size: 1.04em;
-      margin: 0.5em 0 0.9em 0;
-      line-height: 1.6;
+      margin-left: auto;
+      margin-right: auto;
     }
     #law-news a {
       color: #1155cc;
       font-weight: 500;
-      text-decoration: none;
-    }
-    #law-news a:hover { text-decoration: underline; }
-    #law-news small {
-      color: #888;
-      font-size: 0.98em;
+      text-decoration: underline;
+      display: block;
+      margin: 0.3em 0;
     }
   </style>
 </head>
 <body>
-  <p id="searchInstructions">
-    Type to find the latest law news.<br>
-    Results are from top open legal news sources: Bar & Bench, LiveLaw, SCC Times.<br>
-    Click a headline to read the original article.
-  </p>
   <input type="text" id="searchBar" placeholder="Search news..." autocomplete="off" />
   <div id="law-news">Fetching news...</div>
   <script>
     const feeds = [
-      { name: "Bar & Bench", url: "https://www.barandbench.com/feed" },
-      { name: "LiveLaw", url: "https://www.livelaw.in/rss/law" },
-      { name: "SCC Times", url: "https://www.scconline.com/blog/post/category/news/feed/" }
+      { url: "https://www.barandbench.com/feed" },
+      { url: "https://www.livelaw.in/rss/law" },
+      { url: "https://www.scconline.com/blog/post/category/news/feed/" }
     ];
     const rss2json = url => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
-
     let allNews = [];
-
     function renderNews(news) {
-      let html = "<h2>Latest Law News</h2>";
       if (news.length === 0) {
-        html += "<p>No news found for your search.</p>";
-      } else {
-        news.forEach(item => {
-          html += `<p>
-            <a href="${item.link}" target="_blank">${item.title}</a>
-            <br>
-            <small>${item.pubDate ? new Date(item.pubDate).toLocaleString() : ''}</small>
-          </p>`;
-        });
+        document.getElementById('law-news').innerHTML = "<p>No news found for your search.</p>";
+        return;
       }
-      document.getElementById('law-news').innerHTML = html;
+      document.getElementById('law-news').innerHTML = news.map(item =>
+        `<a href="${item.link}" target="_blank">${item.title}</a>`
+      ).join("");
     }
-
     Promise.all(
       feeds.map(feed =>
         fetch(rss2json(feed.url))
@@ -103,21 +64,17 @@
         .then(data =>
           (data.items || []).map(item => ({
             title: item.title,
-            link: item.link,
-            pubDate: item.pubDate
+            link: item.link
           }))
         )
         .catch(() => [])
       )
     ).then(results => {
       allNews = results.flat();
-      // Sort by date, most recent first
-      allNews.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
       renderNews(allNews);
     }).catch(e => {
       document.getElementById('law-news').innerHTML = "Failed: " + e;
     });
-
     document.getElementById('searchBar').addEventListener('input', function() {
       const q = this.value.trim().toLowerCase();
       if (!q) {
@@ -125,8 +82,7 @@
         return;
       }
       const filtered = allNews.filter(
-        item =>
-          item.title.toLowerCase().includes(q)
+        item => item.title.toLowerCase().includes(q)
       );
       renderNews(filtered);
     });
