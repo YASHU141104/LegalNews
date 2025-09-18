@@ -25,11 +25,10 @@
   <input type="text" id="searchBar" placeholder="Search news..." autocomplete="off" />
   <div id="law-news">Fetching news...</div>
   <script>
-    // -------------- ENTER YOUR SUPABASE SETTINGS HERE! --------------
+    // -------------- YOUR SUPABASE SETTINGS --------------
     const supabase_url = "https://xddssiompemprjbnxxlf.supabase.co";
     const supabase_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkZHNzaW9tcGVtcHJqYm54eGxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyMDczNzcsImV4cCI6MjA3Mzc4MzM3N30.QHjF8xdFYp6ex1YW2XV6GkKvPZXNp1biImoQIZdSMG4";
-    // ----------------------------------------------------------------
-
+    // ----------------------------------------------------
     const supabase = window.supabase.createClient(supabase_url, supabase_key);
 
     // RSS FEEDS
@@ -40,13 +39,11 @@
     ];
     const rss2json = url => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
     let allNews = [];
-
     function cleanDesc(desc) {
       if (!desc) return "";
       const text = desc.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
       return text.length > 180 ? text.slice(0, 180) + "..." : text;
     }
-
     function renderNews(news) {
       if(news.length===0) {
         document.getElementById('law-news').innerHTML = "<p>No news found for your search.</p>";
@@ -57,10 +54,9 @@
          <div class="desc">${cleanDesc(item.description || item.content || "")}</div>`
       ).join("");
     }
-
     async function getAllNews() {
       let { data: news, error } = await supabase
-        .from('news')   // Table name
+        .from('news')
         .select('*')
         .order('pubdate', { ascending: false })
         .limit(300);
@@ -68,10 +64,8 @@
       allNews = news;
       renderNews(allNews);
     }
-
     async function insertLatestNews(newsArray) {
       for (const item of newsArray) {
-        // Avoid duplicates: skip if already present by link
         let { data: existing } = await supabase
           .from('news')
           .select('id')
@@ -84,7 +78,6 @@
         }
       }
     }
-
     async function fetchAndStoreNews() {
       Promise.all(
         feeds.map(feed =>
@@ -108,13 +101,11 @@
         document.getElementById('law-news').innerHTML = "Failed: " + e;
       });
     }
-
     // Initial page load: show existing news
     getAllNews();
     // Then fetch+update from sources
     fetchAndStoreNews();
     setInterval(fetchAndStoreNews, 300000); // auto-refresh every 5min
-
     document.getElementById('searchBar').addEventListener('input', function() {
       const q = this.value.trim().toLowerCase();
       if (!q) {
