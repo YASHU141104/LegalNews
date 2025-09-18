@@ -36,13 +36,6 @@
       box-shadow: 0 2px 16px #0002;
       margin-top: 1.5em;
     }
-    #law-news h3 {
-      margin-top: 2em;
-      color: #013266;
-      font-weight: 600;
-      border-bottom: 1px dashed #c5d3e8;
-      padding-bottom: 0.2em;
-    }
     #law-news h2 {
       margin-top: 0.5em;
       color: #131a30;
@@ -79,20 +72,12 @@
 
     function renderNews(news) {
       let html = "<h2>Latest Law News</h2>";
-      let byFeed = {};
       news.forEach(item => {
-        if (!byFeed[item.name]) byFeed[item.name] = [];
-        byFeed[item.name].push(item);
-      });
-      Object.keys(byFeed).forEach(feedName => {
-        html += `<h3>${feedName}</h3>`;
-        byFeed[feedName].forEach(item => {
-          html += `<p>
-            <a href="${item.link}" target="_blank">${item.title}</a>
-            <br>
-            <small>${item.pubDate ? new Date(item.pubDate).toLocaleString() : ''}</small>
-          </p>`;
-        });
+        html += `<p>
+          <a href="${item.link}" target="_blank">${item.title}</a>
+          <br>
+          <small>${item.pubDate ? new Date(item.pubDate).toLocaleString() : ''}</small>
+        </p>`;
       });
       document.getElementById('law-news').innerHTML = html;
     }
@@ -103,7 +88,6 @@
         .then(res => res.json())
         .then(data =>
           (data.items || []).map(item => ({
-            name: feed.name,
             title: item.title,
             link: item.link,
             pubDate: item.pubDate
@@ -113,6 +97,8 @@
       )
     ).then(results => {
       allNews = results.flat();
+      // Sort by date, most recent first
+      allNews.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
       renderNews(allNews);
     }).catch(e => {
       document.getElementById('law-news').innerHTML = "Failed: " + e;
