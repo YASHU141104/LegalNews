@@ -7,13 +7,8 @@
   <style>
     body {
       background: #f4f7fa;
-      height: 100vh;
-      margin: 0;
       font-family: 'Segoe UI', Arial, sans-serif;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      flex-direction: column;
+      margin: 0;
       padding: 2em 10vw;
       min-width: 340px;
     }
@@ -27,6 +22,7 @@
       box-shadow: 0 2px 14px #00336615;
       transition: border-color 0.2s;
       margin-bottom: 2em;
+      display: block;
     }
     #searchBar:focus {
       border-color: #003366;
@@ -69,76 +65,71 @@
   </style>
 </head>
 <body>
-  <input type="text" id="searchBar" placeholder="Search..." autocomplete="off" />
-  <div id="law-news"></div>
+  <input type="text" id="searchBar" placeholder="Search news..." autocomplete="off" />
+  <div id="law-news">Fetching news...</div>
   <script>
     const feeds = [
       { name: "Bar & Bench", url: "https://www.barandbench.com/feed" },
       { name: "LiveLaw", url: "https://www.livelaw.in/rss/law" },
       { name: "SCC Times", url: "https://www.scconline.com/blog/post/category/news/feed/" }
     ];
-
     const rss2json = url => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
-    const STORAGE_KEY = "stored_law_news";
 
-    function fetchAndRenderNews() {
-      Promise.all(
-        feeds.map(feed =>
-          fetch(rss2json(feed.url))
-          .then(res => res.json())
-          .then(data => ({
-            name: feed.name,
-            items: data.items || []
-          }))
-        )
-      ).then(results => {
-        let stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-        let newArticles = {};
+    let allNews = [];
 
-        let html = "<h2>Latest Law News</h2>";
-        results.forEach(feed => {
-          html += `<h3>${feed.name}</h3>`;
-          feed.items.forEach(item => {
-            if (!stored[item.link]) {
-              stored[item.link] = {
-                title: item.title,
-                pubDate: item.pubDate,
-                name: feed.name,
-                link: item.link
-              };
-            }
-            newArticles[item.link] = true;
-            html += `<p>
-              <a href="${item.link}" target="_blank">${item.title}</a>
-              <br>
-              <small>${new Date(item.pubDate).toLocaleString()}</small>
-            </p>`;
-          });
-        });
-
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(stored));
-
-        html += "<h3>Older News</h3>";
-        Object.keys(stored).forEach(link => {
-          if (!newArticles[link]) {
-            let item = stored[link];
-            html += `<p>
-              <a href="${item.link}" target="_blank">${item.title}</a>
-              <br>
-              <small>${new Date(item.pubDate).toLocaleString()} | ${item.name}</small>
-            </p>`;
-          }
-        });
-
-        document.getElementById('law-news').innerHTML = html;
-      }).catch(() => {
-        document.getElementById('law-news').innerHTML = "Could not load news.";
+    function renderNews(news) {
+      let html = "<h2>Latest Law News</h2>";
+      let byFeed = {};
+      news.forEach(item => {
+        if (!byFeed[item.name]) byFeed[item.name] = [];
+        byFeed[item.name].push(item);
       });
+      Object.keys(byFeed).forEach(feedName => {
+        html += `<h3>${feedName}</h3>`;
+        byFeed[feedName].forEach(item => {
+          html += `<p>
+            <a href="${item.link}" target="_blank">${item.title}</a>
+            <br>
+            <small>${item.pubDate ? new Date(item.pubDate).toLocaleString() : ''}</small>
+          </p>`;
+        });
+      });
+      document.getElementById('law-news').innerHTML = html;
     }
 
-    fetchAndRenderNews();
-    setInterval(fetchAndRenderNews, 300000); // Every 5 minutes
+    Promise.all(
+      feeds.map(feed =>
+        fetch(rss2json(feed.url))
+        .then(res => res.json())
+        .then(data =>
+          (data.items || []).map(item => ({
+            name: feed.name,
+            title: item.title,
+            link: item.link,
+            pubDate: item.pubDate
+          }))
+        )
+        .catch(e => [])
+      )
+    ).then(results => {
+      allNews = results.flat();
+      renderNews(allNews);
+    }).catch(e => {
+      document.getElementById('law-news').innerHTML = "Failed: " + e;
+    });
+
+    document.getElementById('searchBar').addEventListener('input', function() {
+      const q = this.value.trim().toLowerCase();
+      if (!q) {
+        renderNews(allNews);
+        return;
+      }
+      const filtered = allNews.filter(
+        item =>
+          item.title.toLowerCase().includes(q)
+      );
+      renderNews(filtered);
+    });
   </script>
 </body>
 </html>
-Fix law news script
