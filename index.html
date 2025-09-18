@@ -176,7 +176,7 @@
           let { error } = await supabase
             .from('news')
             .insert([item]);
-          if (error) {
+          if (error && !error.message.includes('duplicate key value')) {
             setStatus("Insert error: " + error.message);
           }
         }
