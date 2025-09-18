@@ -2,17 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Simple Search Bar</title>
+  <title>Law News Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body { 
+    body {
       background: #f4f7fa;
-      height: 100vh; 
-      margin: 0; 
+      height: 100vh;
+      margin: 0;
       font-family: 'Segoe UI', Arial, sans-serif;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
+      flex-direction: column;
+      padding: 2em 10vw;
+      min-width: 340px;
     }
     #searchBar {
       width: 340px;
@@ -23,13 +26,118 @@
       outline: none;
       box-shadow: 0 2px 14px #00336615;
       transition: border-color 0.2s;
+      margin-bottom: 2em;
     }
-    #searchBar:focus { border-color: #003366; }
+    #searchBar:focus {
+      border-color: #003366;
+    }
+    #law-news {
+      width: 100%;
+      max-width: 850px;
+      background: #fff;
+      padding: 2em 2em;
+      border-radius: 12px;
+      box-shadow: 0 2px 16px #0002;
+      margin-top: 1.5em;
+    }
+    #law-news h3 {
+      margin-top: 2em;
+      color: #013266;
+      font-weight: 600;
+      border-bottom: 1px dashed #c5d3e8;
+      padding-bottom: 0.2em;
+    }
+    #law-news h2 {
+      margin-top: 0.5em;
+      color: #131a30;
+    }
+    #law-news p {
+      font-size: 1.04em;
+      margin: 0.5em 0 0.9em 0;
+      line-height: 1.6;
+    }
+    #law-news a {
+      color: #1155cc;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    #law-news a:hover { text-decoration: underline; }
+    #law-news small {
+      color: #888;
+      font-size: 0.98em;
+    }
   </style>
 </head>
 <body>
   <input type="text" id="searchBar" placeholder="Search..." autocomplete="off" />
+  <div id="law-news"></div>
+  <script>
+    const feeds = [
+      { name: "Bar & Bench", url: "https://www.barandbench.com/feed" },
+      { name: "LiveLaw", url: "https://www.livelaw.in/rss/law" },
+      { name: "SCC Times", url: "https://www.scconline.com/blog/post/category/news/feed/" }
+    ];
+
+    const rss2json = url => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
+    const STORAGE_KEY = "stored_law_news";
+
+    function fetchAndRenderNews() {
+      Promise.all(
+        feeds.map(feed =>
+          fetch(rss2json(feed.url))
+          .then(res => res.json())
+          .then(data => ({
+            name: feed.name,
+            items: data.items || []
+          }))
+        )
+      ).then(results => {
+        let stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+        let newArticles = {};
+
+        let html = "<h2>Latest Law News</h2>";
+        results.forEach(feed => {
+          html += `<h3>${feed.name}</h3>`;
+          feed.items.forEach(item => {
+            if (!stored[item.link]) {
+              stored[item.link] = {
+                title: item.title,
+                pubDate: item.pubDate,
+                name: feed.name,
+                link: item.link
+              };
+            }
+            newArticles[item.link] = true;
+            html += `<p>
+              <a href="${item.link}" target="_blank">${item.title}</a>
+              <br>
+              <small>${new Date(item.pubDate).toLocaleString()}</small>
+            </p>`;
+          });
+        });
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(stored));
+
+        html += "<h3>Older News</h3>";
+        Object.keys(stored).forEach(link => {
+          if (!newArticles[link]) {
+            let item = stored[link];
+            html += `<p>
+              <a href="${item.link}" target="_blank">${item.title}</a>
+              <br>
+              <small>${new Date(item.pubDate).toLocaleString()} | ${item.name}</small>
+            </p>`;
+          }
+        });
+
+        document.getElementById('law-news').innerHTML = html;
+      }).catch(() => {
+        document.getElementById('law-news').innerHTML = "Could not load news.";
+      });
+    }
+
+    fetchAndRenderNews();
+    setInterval(fetchAndRenderNews, 300000); // Every 5 minutes
+  </script>
 </body>
 </html>
-Add index.html
-
