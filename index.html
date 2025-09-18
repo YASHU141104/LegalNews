@@ -14,6 +14,7 @@
     #law-news a { color:#1155cc;font-weight:500;text-decoration:underline;display:block;margin:0.3em 0 0.05em 0;font-size:1.10em; }
     .desc { color:#202020;font-size:0.98em;margin-bottom:0.8em; margin-top:0;padding-left:0.4em; line-height:1.6;}
     #statusMsg { color: #b00; margin-bottom: 1em; text-align: center; font-size: 1.07em; }
+    h2 { color: #244e86; margin-top: 1.5em; }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -26,7 +27,7 @@
   <input type="text" id="searchBar" placeholder="Search news..." autocomplete="off" />
   <div id="law-news">Fetching news...</div>
   <script>
-    const supabase_url = "https://xddssiompemprjbnxxlf.supabase.co";  
+    const supabase_url = "https://xddssiompemprjbnxxlf.supabase.co";
     const supabase_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkZHNzaW9tcGVtcHJqYm54eGxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyMDczNzcsImV4cCI6MjA3Mzc4MzM3N30.QHjF8xdFYp6ex1YW2XV6GkKvPZXNp1biImoQIZdSMG4";
     const supabase = window.supabase.createClient(supabase_url, supabase_key);
 
@@ -46,15 +47,41 @@
       return text.length > 180 ? text.slice(0, 180) + "..." : text;
     }
     function renderNews(news) {
-      setStatus('');
-      if(news.length===0) {
-        document.getElementById('law-news').innerHTML = "<p>No news found for your search.</p>";
-        return;
+      let articles = [], supreme_court_cases = [], high_court_cases = [];
+      news.forEach(item => {
+        const h = (item.title || "").toLowerCase();
+        if (h.includes('supreme court')) {
+          supreme_court_cases.push(item);
+        } else if (h.includes('high court') || h.includes('hc')) {
+          high_court_cases.push(item);
+        } else {
+          articles.push(item);
+        }
+      });
+      let html = "";
+      if (supreme_court_cases.length) {
+        html += "<h2>Supreme Court Cases</h2>";
+        supreme_court_cases.forEach(item =>
+          html += `<a href="${item.link}" target="_blank">${item.title}</a>
+            <div class="desc">${cleanDesc(item.description || item.content || "")}</div>`
+        );
       }
-      document.getElementById('law-news').innerHTML = news.map(item =>
-        `<a href="${item.link}" target="_blank">${item.title}</a>
-         <div class="desc">${cleanDesc(item.description || item.content || "")}</div>`
-      ).join("");
+      if (high_court_cases.length) {
+        html += "<h2>High Court Cases</h2>";
+        high_court_cases.forEach(item =>
+          html += `<a href="${item.link}" target="_blank">${item.title}</a>
+            <div class="desc">${cleanDesc(item.description || item.content || "")}</div>`
+        );
+      }
+      if (articles.length) {
+        html += "<h2>Other Articles</h2>";
+        articles.forEach(item =>
+          html += `<a href="${item.link}" target="_blank">${item.title}</a>
+            <div class="desc">${cleanDesc(item.description || item.content || "")}</div>`
+        );
+      }
+      if (!html) html = "<p>No news found for your search.</p>";
+      document.getElementById('law-news').innerHTML = html;
     }
     async function getAllNews() {
       setStatus("Loading archive...");
@@ -134,51 +161,5 @@
       renderNews(filtered);
     });
   </script>
- <script>
-  // ...your other code...
-  function cleanDesc(desc) {
-    if (!desc) return "";
-    const text = desc.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
-    return text.length > 180 ? text.slice(0, 180) + "..." : text;
-  }
-  function renderNews(news) {
-    let articles = [], supreme_court_cases = [], high_court_cases = [];
-    news.forEach(item => {
-      const h = item.title.toLowerCase();
-      if (h.includes('supreme court')) {
-        supreme_court_cases.push(item);
-      } else if (h.includes('high court') || h.includes('hc')) {
-        high_court_cases.push(item);
-      } else {
-        articles.push(item);
-      }
-    });
-    let html = "";
-    if (supreme_court_cases.length) {
-      html += "<h2>Supreme Court Cases</h2>";
-      supreme_court_cases.forEach(item =>
-        html += `<a href="${item.link}" target="_blank">${item.title}</a>
-          <div class="desc">${cleanDesc(item.description || item.content || "")}</div>`
-      );
-    }
-    if (high_court_cases.length) {
-      html += "<h2>High Court Cases</h2>";
-      high_court_cases.forEach(item =>
-        html += `<a href="${item.link}" target="_blank">${item.title}</a>
-          <div class="desc">${cleanDesc(item.description || item.content || "")}</div>`
-      );
-    }
-    if (articles.length) {
-      html += "<h2>Other Articles</h2>";
-      articles.forEach(item =>
-        html += `<a href="${item.link}" target="_blank">${item.title}</a>
-          <div class="desc">${cleanDesc(item.description || item.content || "")}</div>`
-      );
-    }
-    if (!html) html = "<p>No news found for your search.</p>";
-    document.getElementById('law-news').innerHTML = html;
-  }
-  // ...rest of your code...
-</script>
 </body>
 </html>
