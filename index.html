@@ -25,11 +25,11 @@
   <input type="text" id="searchBar" placeholder="Search news..." autocomplete="off" />
   <div id="law-news">Fetching news...</div>
   <script>
-    // -------------- YOUR SUPABASE SETTINGS --------------
-    const supabase_url = "https://xddssiompemprjbnxxlf.supabase.co";
-    const supabase_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkZHNzaW9tcGVtcHJqYm54eGxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyMDczNzcsImV4cCI6MjA3Mzc4MzM3N30.QHjF8xdFYp6ex1YW2XV6GkKvPZXNp1biImoQIZdSMG4";
-    // ----------------------------------------------------
-    const supabase = window.supabase.createClient(supabase_url, supabase_key);
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = 'https://xddssiompemprjbnxxlf.supabase.co'
+const supabaseKey = process.env.SUPABASE_KEY
+const supabase = createClient(supabaseUrl, supabaseKey)
 
     // RSS FEEDS
     const feeds = [
