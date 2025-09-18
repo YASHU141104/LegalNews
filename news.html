@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LegalNews: News Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { background: #f4f7fa; font-family: Arial,sans-serif; margin: 0; padding: 2em 10vw; }
+    .details-card { background: #fff; box-shadow:0 2px 16px #00336618; border-radius:18px; max-width:720px; margin:2em auto 0 auto; padding:2em 2.1em 2.5em 2.1em;}
+    .news-img { width:180px; height:180px; object-fit:cover; border-radius:12px; border:1.5px solid #eee; margin-bottom:1em; display:block;}
+    .title { font-size:1.35em; font-weight:700; color:#13306a; margin:0.7em 0 0.3em 0;}
+    .desc { color:#222; font-size:1.08em; line-height:1.7; margin-bottom:1.4em;}
+    .meta { color:#867c7c; font-size:0.98em; margin-bottom:1.4em;}
+    .btn { padding:0.7em 1.6em; border-radius:7px; background:#244e86; color:#fff;font-weight:600; text-decoration:none; font-size:1.03em; display:inline-block; border: none; margin-right:0.5em;}
+    .back { margin-top:1.6em; display:inline-block; color: #244e86; text-decoration: underline;}
+    @media(max-width:700px) { .details-card{padding:1.2em 0.7em;} }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="details-card" id="detailsCard">
+    <div>Loading...</div>
+  </div>
+  <script>
+    const supabase_url = "https://xddssiompemprjbnxxlf.supabase.co";
+    const supabase_key = "YOUR_SUPABASE_ANON_KEY"; // <-- your real key here too
+    const supabase = window.supabase.createClient(supabase_url, supabase_key);
+    function getSlug() {
+      const url = new URL(window.location.href);
+      return url.searchParams.get("slug");
+    }
+    function cleanDesc(desc) {
+      if (!desc) return "";
+      const text = desc.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+      return text.length > 450 ? text.slice(0, 450) + "..." : text;
+    }
+    async function showDetails() {
+      const slug = getSlug();
+      if (!slug) {
+        document.getElementById('detailsCard').innerHTML = "<div>News not found. <a href='index.html'>Back to home</a></div>";
+        return;
+      }
+      let { data: item, error } = await supabase
+        .from('news')
+        .select('*')
+        .eq('slug', slug)
+        .maybeSingle();
+      if (error || !item) {
+        document.getElementById('detailsCard').innerHTML = "<div>News not found. <a href='index.html' class='back'>Back to home</a></div>";
+        return;
+      }
+      let html = "";
+      if(item.thumbnail){
+        html += `<img class="news-img" src="${item.thumbnail}" alt="News image">`;
+      }
+      html += `<div class="title">${item.title}</div>`;
+      html += `<div class="meta">${item.pubdate ? ("Published: " + new Date(item.pubdate).toLocaleString()) : ""}</div>`;
+      html += `<div class="desc">${cleanDesc(item.description || item.content || "")}</div>`;
+      html += `<a class="btn" href="${item.link}" target="_blank">Read Original Source</a>`;
+      html += `<a class="back" href="index.html">&larr; Back to Home</a>`;
+      document.getElementById('detailsCard').innerHTML = html;
+    }
+    showDetails();
+  </script>
+</body>
+</html>
+
