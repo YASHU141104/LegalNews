@@ -5,81 +5,17 @@
   <title>LegalLens - Law News</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body {
-      background: #f4f7fa;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 2em 10vw;
-    }
-    .logo-area {
-      display: flex;
-      align-items: center;
-      margin-bottom: 1em;
-      margin-top: 0.5em;
-      gap: 0.7em;
-    }
-    .logo {
-      font-size: 2.3em;
-      border-radius: 50%;
-      background: #244e86;
-      color: #fff;
-      width: 2em;
-      height: 2em;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Segoe UI Emoji', Arial, sans-serif;
-      box-shadow: 0 2px 10px #01326614;
-    }
-    .sitename {
-      font-size: 1.7em;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: #244e86;
-    }
-    #searchBar {
-      width: 340px;
-      padding: 1em;
-      font-size: 1.1em;
-      border: 2px solid #4670ab;
-      border-radius: 8px;
-      box-shadow: 0 2px 14px #00336615;
-      margin-bottom: 2em;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    #law-news {
-      max-width: 850px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    #law-news a {
-      color: #1155cc;
-      font-weight: 500;
-      text-decoration: underline;
-      display: block;
-      margin: 0.3em 0 0.15em 0;
-      font-size: 1.10em;
-    }
-    .desc {
-      color: #202020;
-      font-size: 0.98em;
-      margin-bottom: 0.8em;
-      margin-top: 0;
-      padding-left: 0.4em;
-      max-width: 700px;
-      text-align: left;
-      line-height: 1.6;
-      word-break: break-word;
-    }
-    @media (max-width: 600px) {
-      body { padding: 1em 0.8em; }
-      #law-news { padding: 0; }
-      #searchBar { width: 90vw; }
-      .desc { max-width: 98vw; }
-    }
+    body { background: #f4f7fa; font-family: Arial, sans-serif; margin: 0; padding: 2em 10vw; }
+    .logo-area { display: flex; align-items: center; margin-bottom: 1em; gap: 0.7em; }
+    .logo { font-size: 2.3em; border-radius:50%; background:#244e86; color:#fff; width:2em; height:2em; display:inline-flex;align-items:center;justify-content:center; }
+    .sitename { font-size: 1.7em; font-weight:700;color:#244e86; }
+    #searchBar { width:340px; padding:1em; font-size:1.1em; border:2px solid #4670ab; border-radius: 8px; box-shadow:0 2px 14px #00336615; margin-bottom:2em; display:block; margin-left:auto; margin-right:auto; }
+    #law-news { max-width:850px; margin-left:auto; margin-right:auto; }
+    #law-news a { color:#1155cc;font-weight:500;text-decoration:underline;display:block;margin:0.3em 0 0.05em 0;font-size:1.10em; }
+    .desc { color:#202020;font-size:0.98em;margin-bottom:0.8em; margin-top:0;padding-left:0.4em; line-height:1.6;}
   </style>
+  <!-- Supabase JS Client CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <div class="logo-area">
@@ -89,6 +25,14 @@
   <input type="text" id="searchBar" placeholder="Search news..." autocomplete="off" />
   <div id="law-news">Fetching news...</div>
   <script>
+    // -------------- ENTER YOUR SUPABASE SETTINGS HERE! --------------
+    const supabase_url = "https://xddssiompemprjbnxxlf.supabase.co";
+    const supabase_key = "YOUR_SUPABASE_ANON_API_KEY";
+    // ----------------------------------------------------------------
+
+    const supabase = window.supabase.createClient(supabase_url, supabase_key);
+
+    // RSS FEEDS
     const feeds = [
       { url: "https://www.barandbench.com/feed" },
       { url: "https://www.livelaw.in/rss/law" },
@@ -96,14 +40,15 @@
     ];
     const rss2json = url => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
     let allNews = [];
+
     function cleanDesc(desc) {
-      // Remove HTML tags for a plain snippet; truncate to ~180 chars
       if (!desc) return "";
       const text = desc.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
       return text.length > 180 ? text.slice(0, 180) + "..." : text;
     }
+
     function renderNews(news) {
-      if (news.length === 0) {
+      if(news.length===0) {
         document.getElementById('law-news').innerHTML = "<p>No news found for your search.</p>";
         return;
       }
@@ -112,25 +57,64 @@
          <div class="desc">${cleanDesc(item.description || item.content || "")}</div>`
       ).join("");
     }
-    Promise.all(
-      feeds.map(feed =>
-        fetch(rss2json(feed.url))
-        .then(res => res.json())
-        .then(data =>
-          (data.items || []).map(item => ({
-            title: item.title,
-            link: item.link,
-            description: item.description || item.content || ""
-          }))
-        )
-        .catch(() => [])
-      )
-    ).then(results => {
-      allNews = results.flat();
+
+    async function getAllNews() {
+      let { data: news, error } = await supabase
+        .from('news')   // Table name
+        .select('*')
+        .order('pubdate', { ascending: false })
+        .limit(300);
+      if (!news || error) news = [];
+      allNews = news;
       renderNews(allNews);
-    }).catch(e => {
-      document.getElementById('law-news').innerHTML = "Failed: " + e;
-    });
+    }
+
+    async function insertLatestNews(newsArray) {
+      for (const item of newsArray) {
+        // Avoid duplicates: skip if already present by link
+        let { data: existing } = await supabase
+          .from('news')
+          .select('id')
+          .eq('link', item.link)
+          .maybeSingle();
+        if (!existing) {
+          await supabase
+            .from('news')
+            .insert([item]);
+        }
+      }
+    }
+
+    async function fetchAndStoreNews() {
+      Promise.all(
+        feeds.map(feed =>
+          fetch(rss2json(feed.url))
+          .then(res => res.json())
+          .then(data =>
+            (data.items || []).map(item => ({
+              title: item.title,
+              link: item.link,
+              description: item.description || item.content || "",
+              pubdate: item.pubDate || null
+            }))
+          )
+          .catch(() => [])
+        )
+      ).then(async results => {
+        const freshNews = results.flat();
+        await insertLatestNews(freshNews);
+        await getAllNews();
+      }).catch(e => {
+        document.getElementById('law-news').innerHTML = "Failed: " + e;
+      });
+    }
+
+    // Initial page load: show existing news
+    getAllNews();
+    // Then fetch+update from sources
+    fetchAndStoreNews();
+    setInterval(fetchAndStoreNews, 300000); // auto-refresh every 5min
+
     document.getElementById('searchBar').addEventListener('input', function() {
       const q = this.value.trim().toLowerCase();
       if (!q) {
@@ -139,7 +123,7 @@
       }
       const filtered = allNews.filter(
         item =>
-          item.title.toLowerCase().includes(q)
+          (item.title && item.title.toLowerCase().includes(q))
           || (item.description && item.description.toLowerCase().includes(q))
       );
       renderNews(filtered);
