@@ -2,135 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Legal Case Search Portal</title>
+  <title>Simple Search Bar</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body {
-      background: #ecf0f8;
-      margin: 0;
+    body { 
+      background: #f4f7fa;
+      height: 100vh; 
+      margin: 0; 
       font-family: 'Segoe UI', Arial, sans-serif;
-    }
-    .header {
-      background: #003366;
-      color: white;
-      padding: 1.4em 2em 1.3em 2em;
-      text-align: center;
-      letter-spacing: 2px;
-      font-size: 1.2em;
-      box-shadow: 0 2px 10px rgba(0,51,102,0.10);
-    }
-    .container {
-      max-width: 720px;
-      margin: 40px auto;
-      background: #fff;
-      border-radius: 14px;
-      box-shadow: 0 2px 20px rgba(0,51,102,0.07);
-      padding: 2.2em 2.5em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     #searchBar {
-      width: 100%;
-      font-size: 1.15em;
-      padding: 0.9em 1em;
-      margin-bottom: 26px;
-      margin-top: 10px;
-      border: 2px solid #e3e3e3;
-      border-radius: 9px;
+      width: 340px;
+      padding: 1em 1em;
+      font-size: 1.1em;
+      border: 2px solid #4670ab;
+      border-radius: 8px;
       outline: none;
+      box-shadow: 0 2px 14px #00336615;
       transition: border-color 0.2s;
     }
-    #searchBar:focus {
-      border-color: #003366;
-    }
-    .case {
-      background: #f7fafe;
-      border-radius: 8px;
-      margin: 18px 0;
-      padding: 18px 22px 13px 22px;
-      border-left: 5px solid #2964a2;
-      box-shadow: 0 1px 7px rgba(0,51,102,0.07);
-    }
-    .case-title {
-      font-size: 1.22em;
-      font-weight: bold;
-      margin-bottom: 4px;
-      color: #144370;
-    }
-    .case-desc {
-      color: #313131;
-      margin-bottom: 9px;
-      line-height: 1.6;
-    }
-    .case-meta {
-      font-size: 0.97em;
-      color: #536372;
-      margin-bottom: 3px;
-    }
-    .view-btn {
-      background: #003366;
-      color: white;
-      text-decoration: none;
-      padding: 8px 14px;
-      border-radius: 7px;
-      font-size: 1em;
-      border: none;
-      transition: background 0.2s;
-      cursor: pointer;
-      margin-top: 5px;
-      display: inline-block;
-    }
-    .view-btn:hover {
-      background: #19579d;
-    }
-    .no-results {
-      color: #c0392b;
-      padding: 2em 0;
-      text-align: center;
-      font-weight: 500;
-    }
-    @media (max-width: 800px) {.container{padding:1em;}}
-    @media (max-width: 500px) {.container{padding:0.3em;} html{font-size:15px;}}
+    #searchBar:focus { border-color: #003366; }
   </style>
 </head>
 <body>
-  <div class="header">
-    <b>Legal Case Search Portal</b>
-    <br>
-    <span style="font-size:0.96em;">Search case law descriptions. All sources open access.</span>
-  </div>
-  <div class="container">
-    <input type="text" id="searchBar" onkeyup="searchCases()" placeholder="Search for case title, legal topic, or description…" autocomplete="off" />
-
-    <div id="results"></div>
-  </div>
-  <script>
-  
-    function displayCases(results) {
-      const resDiv = document.getElementById('results');
-      if (results.length === 0) {
-        resDiv.innerHTML = `<div class="no-results">No results found.</div>`;
-        return;
-      }
-      resDiv.innerHTML = results.map((c,i) => 
-        `<div class="case">
-           <div class="case-title">${c.title}</div>
-           <div class="case-meta">${c.meta || ""}</div>
-           <div class="case-desc">${c.description}</div>
-           <button class="view-btn" onclick="window.open('${c.url}','_blank')">View Full Case</button>
-         </div>`
-      ).join('');
-    }
-    function searchCases() {
-      const query = document.getElementById('searchBar').value.toLowerCase();
-      const filtered = cases.filter(c =>
-        c.title.toLowerCase().includes(query) ||
-        c.description.toLowerCase().includes(query) ||
-        (c.meta && c.meta.toLowerCase().includes(query))
-      );
-      displayCases(filtered);
-    }
-    // Show all results initially
-    displayCases(cases);
-  </script>
+  <input type="text" id="searchBar" placeholder="Search..." autocomplete="off" />
 </body>
 </html>
 Add index.html
