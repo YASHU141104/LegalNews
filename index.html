@@ -19,7 +19,6 @@
     .desc { color:#202020; font-size:0.98em; margin-top:0.23em; margin-bottom:0.8em; line-height:1.6; }
     #statusMsg { color: #b00; margin-bottom: 1em; text-align: center; font-size: 1.07em; }
     h2 { color: #244e86; margin-top: 1.5em; }
-    /* Top carousel styles */
     .top-story-slide { background:#fff;border-radius:1.7em;box-shadow:0 2px 20px #00336622;padding:1.2em 1.3em 1em 1.3em;display:flex;align-items:center;gap:2em;max-width:860px; }
     @media (max-width:650px){
       body{padding:1em 0.2em;}
@@ -42,14 +41,16 @@
   <div id="law-news">Fetching news...</div>
   <script>
     const supabase_url = "https://xddssiompemprjbnxxlf.supabase.co";
-    const supabase_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkZHNzaW9tcGVtcHJqYm54eGxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyMDczNzcsImV4cCI6MjA3Mzc4MzM3N30.QHjF8xdFYp6ex1YW2XV6GkKvPZXNp1biImoQIZdSMG4
-      ";
+    const supabase_key = "YOUR_SUPABASE_ANON_KEY";
     const supabase = window.supabase.createClient(supabase_url, supabase_key);
 
     const feeds = [
-       { url: "https://www.barandbench.com/feed" },
-       { url: "https://www.livelaw.in/rss/law" },
-       { url: "https://www.scconline.com/blog/post/category/news/feed/" }
+      { url: "https://www.barandbench.com/feed" },
+      { url: "https://www.livelaw.in/rss/law" },
+      { url: "https://www.scconline.com/blog/post/category/news/feed/" },
+      { url: "https://indialegallive.com/feed/" },
+      { url: "https://lawbeat.in/rss.xml" },
+      { url: "https://www.latestlaws.com/feed/" }
     ];
     const rss2json = url => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
     let allNews = [];
