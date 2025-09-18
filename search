@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Legal Case Search Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { background: #ecf0f8; margin: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+    .header { background: #003366; color: white; padding: 1.4em 2em 1.3em 2em; text-align: center; letter-spacing: 2px; font-size: 1.2em; }
+    .container { max-width: 720px; margin: 40px auto; background: #fff; border-radius: 14px; box-shadow: 0 2px 20px rgba(0,51,102,0.07); padding: 2.2em 2.5em; }
+    #searchBar { width: 100%; font-size: 1.15em; padding: 0.9em 1em; margin-bottom: 26px; margin-top: 10px; border: 2px solid #e3e3e3; border-radius: 9px; outline: none; }
+    #searchBar:focus { border-color: #003366; }
+    .case { background: #f7fafe; border-radius: 8px; margin: 18px 0; padding: 18px 22px 13px 22px; border-left: 5px solid #2964a2; box-shadow: 0 1px 7px rgba(0,51,102,0.07); }
+    .case-title { font-size: 1.22em; font-weight: bold; color: #144370; }
+    .case-desc { color: #313131; margin-bottom: 9px; line-height: 1.6; }
+    .case-meta { font-size: 0.97em; color: #536372; margin-bottom: 3px; }
+    .view-btn { background: #003366; color: white; padding: 8px 14px; border-radius: 7px; font-size: 1em; border: none; cursor: pointer; margin-top: 5px; display: inline-block; }
+    .view-btn:hover { background: #19579d; }
+    .no-results { color: #c0392b; padding: 2em 0; text-align: center; font-weight: 500; }
+    @media (max-width: 800px) { .container { padding:1em; } }
+    @media (max-width: 500px) { .container { padding:0.3em; } html { font-size:15px; } }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <b>Legal Case Search Portal</b><br>
+    <span style="font-size:0.96em;">Search case law descriptions. All sources open access.</span>
+  </div>
+  <div class="container">
+    <input type="text" id="searchBar" onkeyup="searchCases()" placeholder="Search for case title, legal topic, or description…" autocomplete="off" />
+    <div id="results"></div>
+  </div>
+  <script>
+    // Add or edit cases below.
+    const cases = [
+      { 
+        title: "R.M. Malkani v. State of Maharashtra", 
+        description: "Deals with admissibility of tape-recorded conversations as evidence under Indian law—set the standard for authenticity and voluntariness in electronic evidence.",
+        meta: "Supreme Court | 1973 | Evidence Law",
+        url: "https://indiankanoon.org/doc/1924103/"
+      },
+      { 
+        title: "V.P. Santa v. Indian Medical Association",
+        description: "A pathbreaking ruling on the liability of hospitals and doctors in cases of medical negligence. Enlarged the consumer rights of patients in India.",
+        meta: "Supreme Court | 1995 | Consumer Protection – Medical Negligence",
+        url: "https://indiankanoon.org/doc/239726/"
+      },
+      { 
+        title: "B. Muthuraman v. Union of India",
+        description: "Clarified compensation norms for land acquisition under the Land Acquisition, Rehabilitation and Resettlement Act, 2013.",
+        meta: "Madras High Court | 2016 | LARR Act",
+        url: "https://casemine.com/judgement/in/5b1a3c144a93262f9ab5d99e"
+      }
+      // Add more cases here!
+    ];
+
+    function displayCases(results) {
+      const resDiv = document.getElementById('results');
+      if (results.length === 0) {
+        resDiv.innerHTML = `<div class="no-results">No results found.</div>`;
+        return;
+      }
+      resDiv.innerHTML = results.map((c,i) => 
+        `<div class="case">
+           <div class="case-title">${c.title}</div>
+           <div class="case-meta">${c.meta || ""}</div>
+           <div class="case-desc">${c.description}</div>
+           <button class="view-btn" onclick="window.open('${c.url}','_blank')">View Full Case</button>
+         </div>`
+      ).join('');
+    }
+
+    function searchCases() {
+      const query = document.getElementById('searchBar').value.toLowerCase();
+      const filtered = cases.filter(c =>
+        c.title.toLowerCase().includes(query) ||
+        c.description.toLowerCase().includes(query) ||
+        (c.meta && c.meta.toLowerCase().includes(query))
+      );
+      displayCases(filtered);
+    }
+
+    displayCases(cases); // Show all on load
+  </script>
+</body>
+</html>
+Add search
