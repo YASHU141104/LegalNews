@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <title>LegalNewsIndia - Law News</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Modern font imports -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:800,700|Lato:400,700&display=swap" rel="stylesheet">
   <style>
     :root {
       --accent: #244e86;
@@ -14,7 +16,8 @@
     }
     body {
       background: #f4f7fa;
-      font-family: Arial, sans-serif;
+      color: #222;
+      font-family: 'Lato', Arial, sans-serif;
       margin: 0;
       padding: 2em 10vw;
       transition: background 0.4s, color 0.4s;
@@ -26,7 +29,7 @@
     .logo-area {
       display: flex;
       align-items: center;
-      margin-bottom: 1em;
+      margin-bottom: 1.5em;
       gap: 0.7em;
     }
     .logo {
@@ -39,13 +42,17 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      font-family: 'Montserrat', Arial, sans-serif;
     }
     .sitename {
-      font-size: 1.7em;
-      font-weight: 700;
+      font-size: 2.1em;
+      font-weight: 800;
+      letter-spacing:2px;
       color: #244e86;
+      font-family: 'Montserrat', Arial, sans-serif;
     }
     .dark-mode .sitename { color: #ffca28; }
+    /* Modern dark mode toggle */
     .toggle-switch {
       display:inline-block;
       position:relative;
@@ -90,6 +97,74 @@
     .toggle-moon { left:8px; }
     .toggle-sun { right:8px; color: #fbc02d; }
     .toggle-switch input:checked ~ .toggle-sun { color: #ffd600; }
+
+    /* Opportunity Section */
+    .opportunity-section {
+      background: linear-gradient(92deg, #ffca28 16%, #244e86 80%);
+      color: #fff;
+      border-radius: 1.3em;
+      box-shadow: 0 3px 22px #244e8620;
+      padding: 2.2em 1.3em 1.6em 1.3em;
+      margin-bottom: 2em;
+      max-width: 900px;
+      margin-left:auto; margin-right:auto;
+    }
+    .opportunity-section h2 {
+      text-align: center;
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-weight: bold;
+      letter-spacing:1px;
+      margin-bottom: 1.3em;
+      color: #fffde4;
+    }
+    .opportunity-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5em 2em;
+      justify-content: space-around;
+    }
+    .opp-item {
+      min-width: 260px;
+      flex:1 1 270px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 0.8em;
+      padding: 1.1em 1.3em;
+      box-shadow: 0 2px 10px #fff3;
+      display:flex; flex-direction:column; align-items:flex-start; gap:0.4em;
+      transition: box-shadow 0.22s, transform 0.22s;
+      opacity: 0; animation: cardFade .65s forwards;
+    }
+    .opp-item:hover {
+      box-shadow: 0 6px 25px #244e8638;
+      transform: translateY(-4px) scale(1.02);
+    }
+    .opp-icon {
+      font-size: 2em;
+    }
+    .opp-title {
+      font-weight: 700;
+      font-size: 1.17em;
+      margin-left:0.2em;
+      margin-bottom:0.4em;
+      color: #ffe082;
+      font-family: 'Montserrat', Arial, sans-serif;
+    }
+    .opp-link {
+      margin: 0.15em 0.5em 0.12em 0.2em;
+      background: #fffde4;
+      color: #244e86;
+      border-radius: 5px;
+      padding: 0.21em 0.73em;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.19s;
+      display:inline-block;
+    }
+    .opp-link:hover { background:#ffe082; color:#b30348;}
+    @media (max-width:650px) {
+      .opportunity-list { flex-direction:column; gap:1.2em; }
+    }
+    /* Top story highlight styles (see previous response) */
     .top-story-highlight {
       background: linear-gradient(90deg, #244e86 60%, #ffca28 100%);
       border-radius: 1.5em;
@@ -102,6 +177,7 @@
       align-items: center;
       gap: 2.5em;
       min-height: 200px;
+      opacity: 0; animation: cardFade .65s forwards;
     }
     .top-story-ribbon {
       position: absolute;
@@ -162,6 +238,7 @@
       min-width: 0;
     }
     .top-story-title {
+      font-family: 'Montserrat', Arial, sans-serif;
       font-size: 2.2em;
       line-height: 1.1;
       font-weight: 800;
@@ -219,6 +296,64 @@
       .top-story-arrow.left{ left:0;}
       .top-story-arrow.right{ right:0;}
     }
+    /* News Cards Modernization */
+    .news-card {
+      background: white;
+      box-shadow: 0 2px 12px #244e8620;
+      border-radius: 12px;
+      padding: 1.2em;
+      margin-bottom: 1.3em;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 1.3em;
+      transition: box-shadow 0.22s, transform 0.22s;
+      opacity: 0; animation: cardFade .65s forwards;
+    }
+    .news-card:hover {
+      box-shadow: 0 6px 25px #244e8638;
+      transform: translateY(-4px) scale(1.02);
+    }
+    .news-img {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #eee;
+      background: #f6f9fc;
+      flex-shrink: 0;
+    }
+    .news-content {
+      flex: 1;
+    }
+    .news-content a {
+      color: #1155cc;
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-weight: 600;
+      text-decoration: underline;
+      font-size: 1.17em;
+    }
+    .desc {
+      color: #202020;
+      font-size: 0.98em;
+      margin-top: 0.23em;
+      margin-bottom: 0.8em;
+      line-height: 1.6;
+    }
+    #statusMsg {
+      color: #b00;
+      margin-bottom: 1em;
+      text-align: center;
+      font-size: 1.07em;
+    }
+    h2 {
+      color: #244e86;
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-size: 1.5em;
+      margin-top: 1.5em;
+      letter-spacing:1px;
+    }
+    @keyframes cardFade { to { opacity:1; } }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -233,12 +368,38 @@
       <span class="toggle-sun">&#9728;</span>
     </label>
   </div>
+
   <div id="top-carousel"></div>
+
+  <div class="opportunity-section">
+    <h2>Opportunities Hub: Internships, Research, and More</h2>
+    <div class="opportunity-list">
+      <div class="opp-item">
+        <span class="opp-icon">💼</span>
+        <span class="opp-title">Internship Opportunities</span>
+        <a href="https://lawbhoomi.com/category/internships/" target="_blank" class="opp-link">LawBhoomi</a>
+        <a href="https://www.lawctopus.com/category/internship-experiences/" target="_blank" class="opp-link">Lawctopus</a>
+      </div>
+      <div class="opp-item">
+        <span class="opp-icon">📄</span>
+        <span class="opp-title">Call for Research Papers</span>
+        <a href="https://lawbhoomi.com/category/calls-for-papers/" target="_blank" class="opp-link">LawBhoomi</a>
+        <a href="https://www.lawctopus.com/category/call-for-papers/" target="_blank" class="opp-link">Lawctopus</a>
+      </div>
+      <div class="opp-item">
+        <span class="opp-icon">📢</span>
+        <span class="opp-title">Other Opportunities</span>
+        <a href="https://lawbhoomi.com/category/competitions/" target="_blank" class="opp-link">Competitions (LawBhoomi)</a>
+        <a href="https://www.lawctopus.com/category/misc/" target="_blank" class="opp-link">Misc (Lawctopus)</a>
+      </div>
+    </div>
+  </div>
+
   <div id="statusMsg"></div>
   <input type="text" id="searchBar" placeholder="Search news by keywords or date (YYYY-MM-DD)..." autocomplete="off" />
   <div id="law-news">Loading news...</div>
   <script>
-    // Stylish dark mode toggle
+    // Modern dark mode toggle
     const darkSwitch = document.getElementById("darkToggleSwitch");
     function setDarkMode(state) {
       document.body.classList.toggle("dark-mode", state);
@@ -442,7 +603,7 @@
                   pubdate: item.pubDate || null,
                   thumbnail: item.thumbnail || "",
                   enclosure: item.enclosure || null,
-                  featured: item.featured || false // you may set this in custom parse or admin
+                  featured: item.featured || false // customize as needed
                 }))
               )
               .catch(() => [])
