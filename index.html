@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -164,7 +164,8 @@
   <div id="law-news">Loading news...</div>
   <script>
     const supabase_url = "https://xddssiompemprjbnxxlf.supabase.co";
-    const supabase_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkZHNzaW9tcGVtcHJqYm54eGxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyMDczNzcsImV4cCI6MjA3Mzc4MzM3N30.QHjF8xdFYp6ex1YW2XV6GkKvPZXNp1biImoQIZdSMG4";
+    const supabase_key =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkZHNzaW9tcGVtcmpYm54eGxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyMDczNzcsImV4cCI6MjA3Mzc4MzM3N30.QHjF8xdFYp6ex1YW2XV6GkKvPZXNp1biImoQIZdSMG4";
     const supabase = window.supabase.createClient(supabase_url, supabase_key);
 
     const feeds = [
@@ -195,16 +196,19 @@
       return item.thumbnail || (item.enclosure && item.enclosure.link) || "";
     }
 
-    function getTodayStories(news) {
+    // Get news from last 7 days including today
+    function getWeekStories(news) {
       const now = new Date();
-      const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const endOfDay = new Date(startOfDay);
-      endOfDay.setDate(endOfDay.getDate() + 1);
+      const sevenDaysAgo = new Date(now);
+      sevenDaysAgo.setDate(now.getDate() - 6);
+
+      const startDate = new Date(sevenDaysAgo.getFullYear(), sevenDaysAgo.getMonth(), sevenDaysAgo.getDate());
+      const endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
 
       return news.filter((item) => {
         if (!item.pubdate) return false;
-        let d = new Date(item.pubdate);
-        return d >= startOfDay && d < endOfDay;
+        const d = new Date(item.pubdate);
+        return d >= startDate && d < endDate;
       });
     }
 
@@ -232,7 +236,7 @@
                 : ""
             }
             <div style="flex:1">
-              <div style="color:#B30348; font-weight:700; font-size:1.14em;margin-bottom:0.17em;">Today's Top Story</div>
+              <div style="color:#B30348; font-weight:700; font-size:1.14em;margin-bottom:0.17em;">This Week's Top Story</div>
               <a href="${story.link}" target="_blank" style="color:#244e86;font-size:1.3em;font-weight:700;text-decoration:underline;display:block;">
                 ${story.title}
               </a>
@@ -317,12 +321,12 @@
       }
 
       allNews = news;
-      const todayNews = getTodayStories(allNews).sort(
+      const weekNews = getWeekStories(allNews).sort(
         (a, b) => new Date(b.pubdate) - new Date(a.pubdate)
       );
 
-      renderTopCarousel(todayNews);
-      renderGroupedNews(todayNews);
+      renderTopCarousel(weekNews);
+      renderGroupedNews(weekNews);
       setStatus(""); // Clear status
     }
 
@@ -385,12 +389,12 @@
       const q = this.value.trim().toLowerCase();
 
       if (!q) {
-        // Show today's news only when search is cleared
-        const todayNews = getTodayStories(allNews).sort(
+        // Show week's news only when search is cleared
+        const weekNews = getWeekStories(allNews).sort(
           (a, b) => new Date(b.pubdate) - new Date(a.pubdate)
         );
-        renderTopCarousel(todayNews);
-        renderGroupedNews(todayNews);
+        renderTopCarousel(weekNews);
+        renderGroupedNews(weekNews);
         setStatus("");
         return;
       }
@@ -401,7 +405,6 @@
         filtered = allNews.filter((item) => {
           if (!item.pubdate) return false;
           const d = new Date(item.pubdate);
-          // Match exact date ignoring time
           const ymd = d.toISOString().split("T")[0];
           return ymd === q;
         });
@@ -421,5 +424,4 @@
     });
   </script>
 </body>
-  </html>
-  
+</html>
