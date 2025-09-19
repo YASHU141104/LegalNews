@@ -214,6 +214,50 @@
     }
     darkBtn.onclick = () => setDarkMode(!document.body.classList.contains("dark-mode"));
     (()=>{ if(localStorage.getItem("dark-mode")) setDarkMode(true); })();
+ // 2. TABS for All, Supreme, High, Other
+    const highCourtList = [
+      { name: "Allahabad High Court" }, { name: "Andhra Pradesh High Court" }, { name: "Bombay High Court" },
+      { name: "Calcutta High Court" }, { name: "Chhattisgarh High Court" }, { name: "Delhi High Court" },
+      { name: "Gauhati High Court" }, { name: "Gujarat High Court" }, { name: "Himachal Pradesh High Court" },
+      { name: "Jammu & Kashmir High Court" }, { name: "Jharkhand High Court" },
+      { name: "Karnataka High Court" }, { name: "Kerala High Court" }, { name: "Madhya Pradesh High Court" },
+      { name: "Madras High Court" }, { name: "Manipur High Court" }, { name: "Meghalaya High Court" },
+      { name: "Orissa High Court" }, { name: "Patna High Court" }, { name: "Punjab & Haryana High Court" },
+      { name: "Rajasthan High Court" }, { name: "Sikkim High Court" }, { name: "Telangana High Court" },
+      { name: "Tripura High Court" }, { name: "Uttarakhand High Court" }
+    ];
+    // you may optionally add URL property to each if you want button to link out!
+
+    let selectedTab = "all";
+    let selectedHC = null;
+
+    function setTab(cat, hcName=null) {
+      selectedTab = cat;
+      selectedHC = cat==="high" ? hcName : null;
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle("active", btn.dataset.category===cat));
+      renderHighCourtTabs(cat==="high"?hcName:null);
+      renderApp();
+    }
+
+    // High court sub-tabs for "High Court" category
+    function renderHighCourtTabs(active=null) {
+      const hctabs = document.getElementById("highCourtTabs");
+      if(selectedTab!=="high") { hctabs.style.display = "none"; return; }
+      hctabs.style.display='flex';
+      let html = '';
+      highCourtList.forEach(hc => {
+        html += `<button class="hc-btn${active===hc.name?' active':''}" data-hc="${hc.name}">${hc.name}</button>`;
+      });
+      hctabs.innerHTML = html;
+      hctabs.querySelectorAll(".hc-btn").forEach(btn=>
+        btn.onclick = ()=>{
+          setTab("high",btn.dataset.hc);
+        }
+      );
+    }
+    document.getElementById("categoryTabs").querySelectorAll(".tab-btn").forEach(btn=>
+      btn.onclick=()=>setTab(btn.dataset.category)
+    );
 
     const supabase_url = "https://xddssiompemprjbnxxlf.supabase.co";
     const supabase_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkZHNzaW9tcGVtcHJqYm54eGxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyMDczNzcsImV4cCI6MjA3Mzc4MzM3N30.QHjF8xdFYp6ex1YW2XV6GkKvPZXNp1biImoQIZdSMG4";
