@@ -233,7 +233,7 @@
   </div>
   <div id="statusMsg"></div>
   <div id="top-carousel"></div>
-  <input type="text" id="searchBar" placeholder="Search news by keywords or date (YYYY-MM-DD)..." autocomplete="off" />
+  <input type="text" id="searchBar" placeholder="Search news by keywords or date (DD-MM-YYYY)..." autocomplete="off" />
   <div id="law-news">Loading news...</div>
   <script>
     // 1. DARK MODE
@@ -340,46 +340,48 @@
       let d = new Date(pubdate);
       return d.toLocaleString();
     }
-    function renderTopCarousel(topStories) {
-      const container = document.getElementById("top-carousel");
-      if (!topStories || !topStories.length) {
-        container.innerHTML = "";
-        return;
-      }
-      let slideIdx = 0;
-      function showSlide(n) {
-        const story = topStories[n];
-        let img = getImg(story);
-        container.innerHTML = `
-          <div class="top-story-slide">
-            ${
-              img
-                ? `<img src="${img}" style="width:120px;height:120px;object-fit:cover;border-radius:1em;border:1.7px solid #eee;flex-shrink:0;">`
-                : ""
-            }
-            <div style="flex:1">
-              <div style="color:#B30348; font-weight:700; font-size:1.14em;margin-bottom:0.17em;">This Week's Top Story</div>
-              <a href="${story.link}" target="_blank" style="color:#244e86;font-size:1.3em;font-weight:700;text-decoration:underline;display:block;">
-                ${story.title}
-              </a>
-              <div style="font-size:0.85em; color:#666;">${formatPubDate(story.pubdate)}</div>
-              <div style="color:#212121;font-size:1.04em;margin-top:0.25em;">
-                ${cleanDesc(story.description || story.content || "")}
-              </div>
-            </div>
-          </div>
-        `;
-      }
-      showSlide(slideIdx);
-      if (topStories.length > 1) {
-        setInterval(() => {
-          slideIdx = (slideIdx + 1) % topStories.length;
-          showSlide(slideIdx);
-        }, 6000);
-      }
-    }
+   function renderTopCarousel(topStories) {
+  const container = document.getElementById("top-carousel");
+  if (!topStories || !topStories.length) {
+    container.innerHTML = "";
+    return;
+  }
+  let slideIdx = 0;
 
-    // The main rendering function
+  function showSlide(n) {
+    const story = topStories[n];
+    let img = getImg(story);
+    container.innerHTML = `
+      <div class="top-story-slide" style="position:relative;min-height:140px;">
+        <button id="prevSlide" style="position:absolute;left:-33px;top:45%;background:#244e86;color:#fff;border:none;border-radius:999px;width:36px;height:36px;cursor:pointer;font-size:1.3em;padding:0;">&#8592;</button>
+        ${img ? `<img src="${img}" style="width:120px;height:120px;object-fit:cover;border-radius:1em;border:1.7px solid #eee;flex-shrink:0;">` : ""}
+        <div style="flex:1">
+          <div style="color:#B30348; font-weight:700; font-size:1.14em;margin-bottom:0.17em;">This Week's Top Story</div>
+          <a href="${story.link}" target="_blank" style="color:#244e86;font-size:1.3em;font-weight:700;text-decoration:underline;display:block;">
+            ${story.title}
+          </a>
+          <div style="font-size:0.85em; color:#666;">${formatPubDate(story.pubdate)}</div>
+          <div style="color:#212121;font-size:1.04em;margin-top:0.25em;">
+            ${cleanDesc(story.description || story.content || "")}
+          </div>
+        </div>
+        <button id="nextSlide" style="position:absolute;right:-33px;top:45%;background:#244e86;color:#fff;border:none;border-radius:999px;width:36px;height:36px;cursor:pointer;font-size:1.3em;padding:0;">&#8594;</button>
+      </div>
+    `;
+
+    // Arrow event listeners
+    document.getElementById("prevSlide").onclick = () => {
+      slideIdx = (slideIdx - 1 + topStories.length) % topStories.length;
+      showSlide(slideIdx);
+    };
+    document.getElementById("nextSlide").onclick = () => {
+      slideIdx = (slideIdx + 1) % topStories.length;
+      showSlide(slideIdx);
+    };
+  }
+  showSlide(slideIdx);
+}
+         // The main rendering function
     function filterNews(all, searchStr) {
       // 1. week filter
       let weekNews = getWeekStories(all);
