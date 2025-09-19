@@ -191,6 +191,15 @@
     <span class="sitename">LegalNewsIndia</span>
     <button class="dark-toggle-btn" id="darkToggleBtn" title="Toggle dark mode">Dark Mode</button>
   </div>
+  <div class="tabs" id="categoryTabs">
+    <button class="tab-btn active" data-category="all">All</button>
+    <button class="tab-btn" data-category="supreme">Supreme Court</button>
+    <button class="tab-btn" data-category="high">High Court</button>
+    <button class="tab-btn" data-category="other">Other</button>
+  </div>
+  <div class="hc-tabs" id="highCourtTabs" style="display:none">
+    <!-- JS will inject High Court buttons here -->
+  </div>
   <div id="top-carousel"></div>
   <div id="statusMsg"></div>
   <input type="text" id="searchBar" placeholder="Search news by keywords or date (YYYY-MM-DD)..." autocomplete="off" />
