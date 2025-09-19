@@ -1,37 +1,24 @@
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>LegalNewsIndia - Law News</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Modern font imports -->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:800,700|Lato:400,700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --accent: #244e86;
-      --toggle-bg: #e7e7e7;
-      --toggle-dark-bg: #181a1b;
-      --toggle-ball: #fff;
-      --toggle-checked-ball: #ffc107;
-    }
     body {
       background: #f4f7fa;
-      color: #222;
-      font-family: 'Lato', Arial, sans-serif;
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 2em 10vw;
-      transition: background 0.4s, color 0.4s;
     }
-    body.dark-mode {
-      background: #181a1b;
-      color: #e7e7e7;
-    }
+
     .logo-area {
       display: flex;
       align-items: center;
-      margin-bottom: 1.5em;
+      margin-bottom: 1em;
       gap: 0.7em;
     }
+
     .logo {
       font-size: 2.3em;
       border-radius: 50%;
@@ -42,261 +29,37 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Montserrat', Arial, sans-serif;
     }
-    .sitename {
-      font-size: 2.1em;
-      font-weight: 800;
-      letter-spacing:2px;
-      color: #244e86;
-      font-family: 'Montserrat', Arial, sans-serif;
-    }
-    .dark-mode .sitename { color: #ffca28; }
-    /* Modern dark mode toggle */
-    .toggle-switch {
-      display:inline-block;
-      position:relative;
-      width: 53px;
-      height: 28px;
-      margin-left: 18px;
-      vertical-align: middle;
-    }
-    .toggle-switch input {
-      opacity:0;
-      width:0;
-      height:0;
-    }
-    .toggle-slider {
-      position:absolute; cursor:pointer; top:0; left:0;
-      right:0; bottom:0; background: var(--toggle-bg);
-      border-radius:20px; transition:.4s;
-      border:2px solid var(--accent);
-    }
-    .toggle-switch input:checked + .toggle-slider {
-      background: var(--toggle-dark-bg);
-      border-color: #ffca28;
-    }
-    .toggle-slider:before {
-      position:absolute; content:"";
-      height: 21px; width: 21px; left: 2px; top:2px;
-      border-radius:50%;
-      background: var(--toggle-ball);
-      box-shadow: 0 1px 4px #0006;
-      transition:.4s;
-    }
-    .toggle-switch input:checked + .toggle-slider:before {
-      transform:translateX(25px);
-      background: var(--toggle-checked-ball);
-    }
-    .toggle-moon, .toggle-sun {
-      position:absolute; top: 5px; font-size:1.1em;
-      color: #ffc107;
-      pointer-events: none;
-      transition: color 0.3s;
-    }
-    .toggle-moon { left:8px; }
-    .toggle-sun { right:8px; color: #fbc02d; }
-    .toggle-switch input:checked ~ .toggle-sun { color: #ffd600; }
 
-    /* Opportunity Section */
-    .opportunity-section {
-      background: linear-gradient(92deg, #ffca28 16%, #244e86 80%);
-      color: #fff;
-      border-radius: 1.3em;
-      box-shadow: 0 3px 22px #244e8620;
-      padding: 2.2em 1.3em 1.6em 1.3em;
-      margin-bottom: 2em;
-      max-width: 900px;
-      margin-left:auto; margin-right:auto;
-    }
-    .opportunity-section h2 {
-      text-align: center;
-      font-family: 'Montserrat', Arial, sans-serif;
-      font-weight: bold;
-      letter-spacing:1px;
-      margin-bottom: 1.3em;
-      color: #fffde4;
-    }
-    .opportunity-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5em 2em;
-      justify-content: space-around;
-    }
-    .opp-item {
-      min-width: 260px;
-      flex:1 1 270px;
-      background: rgba(255,255,255,0.12);
-      border-radius: 0.8em;
-      padding: 1.1em 1.3em;
-      box-shadow: 0 2px 10px #fff3;
-      display:flex; flex-direction:column; align-items:flex-start; gap:0.4em;
-      transition: box-shadow 0.22s, transform 0.22s;
-      opacity: 0; animation: cardFade .65s forwards;
-    }
-    .opp-item:hover {
-      box-shadow: 0 6px 25px #244e8638;
-      transform: translateY(-4px) scale(1.02);
-    }
-    .opp-icon {
-      font-size: 2em;
-    }
-    .opp-title {
+    .sitename {
+      font-size: 1.7em;
       font-weight: 700;
-      font-size: 1.17em;
-      margin-left:0.2em;
-      margin-bottom:0.4em;
-      color: #ffe082;
-      font-family: 'Montserrat', Arial, sans-serif;
-    }
-    .opp-link {
-      margin: 0.15em 0.5em 0.12em 0.2em;
-      background: #fffde4;
       color: #244e86;
-      border-radius: 5px;
-      padding: 0.21em 0.73em;
-      font-weight: 600;
-      text-decoration: none;
-      transition: background 0.19s;
-      display:inline-block;
     }
-    .opp-link:hover { background:#ffe082; color:#b30348;}
-    @media (max-width:650px) {
-      .opportunity-list { flex-direction:column; gap:1.2em; }
+
+    #top-carousel {
+      margin-bottom: 1em;
     }
-    /* Top story highlight styles (see previous response) */
-    .top-story-highlight {
-      background: linear-gradient(90deg, #244e86 60%, #ffca28 100%);
-      border-radius: 1.5em;
-      box-shadow: 0 6px 28px #00336645;
-      color: #fff;
-      padding: 2.2em 2.2em 2em 2.2em;
+
+    #searchBar {
+      width: 340px;
+      padding: 1em;
+      font-size: 1.1em;
+      border: 2px solid #4670ab;
+      border-radius: 8px;
+      box-shadow: 0 2px 14px #00336615;
       margin-bottom: 2em;
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 2.5em;
-      min-height: 200px;
-      opacity: 0; animation: cardFade .65s forwards;
-    }
-    .top-story-ribbon {
-      position: absolute;
-      top: 1em; left: 2em;
-      background: #b30348;
-      color: #fff;
-      padding: 0.5em 1.4em;
-      border-radius: 1em;
-      font-weight: bold;
-      font-size: 1.08em;
-      letter-spacing: 1px;
-      z-index: 2;
-      box-shadow: 0 1px 7px #fff5;
-    }
-    .top-story-featured-badge {
-      position: absolute;
-      top: 3.4em; left: 2em;
-      background: #22c55e;
-      color: #fff;
-      padding: 0.35em 1.2em;
-      border-radius: 1em;
-      font-weight: bold;
-      font-size: 0.98em;
-      z-index: 2;
-      box-shadow: 0 1px 7px #fff5;
-    }
-    .top-story-img {
-      width: 180px;
-      height: 180px;
-      min-width:180px;
-      min-height:180px;
-      border-radius: 1em;
-      object-fit: cover;
-      box-shadow: 0 4px 24px #2228;
-      background: #f0efea;
-      margin-right: 1em;
       display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .top-story-placeholder {
-      width: 180px;
-      height: 180px;
-      min-width:180px;
-      min-height:180px;
-      border-radius: 1em;
-      background: linear-gradient(135deg, #ffe082, #b3c6e6 80%);
-      color: #244e86;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 1.13em;
-      letter-spacing: 0.5px;
-      box-shadow: 0 4px 24px #2228;
-      margin-right: 1em;
+
+    #law-news {
+      max-width: 850px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .top-story-content {
-      flex: 1;
-      min-width: 0;
-    }
-    .top-story-title {
-      font-family: 'Montserrat', Arial, sans-serif;
-      font-size: 2.2em;
-      line-height: 1.1;
-      font-weight: 800;
-      color: #ffe082;
-      margin: 0 0 0.18em 0;
-      text-shadow: 1px 3px 4px #2226;
-    }
-    .top-story-meta {
-      font-size: 1em;
-      font-weight: 600;
-      color: #fffde4;
-      margin-bottom: 0.7em;
-    }
-    .top-story-snippet {
-      font-size: 1.21em;
-      color: #fff;
-      margin-bottom: 0.95em;
-      margin-top: 0.15em;
-    }
-    .top-story-link {
-      display: inline-block;
-      font-size: 1.09em;
-      background: #fffde4;
-      color: #244e86;
-      border-radius: 0.8em;
-      font-weight: bold;
-      padding: 0.6em 1.6em;
-      box-shadow: 0 1px 6px #eee;
-      text-decoration: none;
-      margin-top: 0.8em;
-      transition: background 0.2s, color 0.2s;
-    }
-    .top-story-link:hover { background: #ffe082; color: #a90025;}
-    .top-story-arrow {
-      background: #fffde4;
-      color: #244e86;
-      border: none;
-      border-radius: 50%;
-      font-size: 2.2em;
-      width: 48px; height: 48px;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-weight: bold;
-      box-shadow: 0 2px 9px #2224;
-      cursor: pointer;
-      z-index:5;
-      transition: background 0.18s;
-    }
-    .top-story-arrow:active { background:#ffe082; }
-    .top-story-arrow.left { left:-38px; }
-    .top-story-arrow.right { right:-38px; }
-    @media (max-width: 900px) {
-      .top-story-highlight { flex-direction:column; gap:1.5em; overflow:auto; padding:1.1em;}
-      .top-story-arrow.left{ left:0;}
-      .top-story-arrow.right{ right:0;}
-    }
-    /* News Cards Modernization */
+
     .news-card {
       background: white;
       box-shadow: 0 2px 12px #244e8620;
@@ -307,13 +70,8 @@
       flex-direction: row;
       align-items: flex-start;
       gap: 1.3em;
-      transition: box-shadow 0.22s, transform 0.22s;
-      opacity: 0; animation: cardFade .65s forwards;
     }
-    .news-card:hover {
-      box-shadow: 0 6px 25px #244e8638;
-      transform: translateY(-4px) scale(1.02);
-    }
+
     .news-img {
       width: 90px;
       height: 90px;
@@ -323,16 +81,18 @@
       background: #f6f9fc;
       flex-shrink: 0;
     }
+
     .news-content {
       flex: 1;
     }
+
     .news-content a {
       color: #1155cc;
-      font-family: 'Montserrat', Arial, sans-serif;
       font-weight: 600;
       text-decoration: underline;
       font-size: 1.17em;
     }
+
     .desc {
       color: #202020;
       font-size: 0.98em;
@@ -340,20 +100,51 @@
       margin-bottom: 0.8em;
       line-height: 1.6;
     }
+
     #statusMsg {
       color: #b00;
       margin-bottom: 1em;
       text-align: center;
       font-size: 1.07em;
     }
+
     h2 {
       color: #244e86;
-      font-family: 'Montserrat', Arial, sans-serif;
-      font-size: 1.5em;
       margin-top: 1.5em;
-      letter-spacing:1px;
     }
-    @keyframes cardFade { to { opacity:1; } }
+
+    .top-story-slide {
+      background: #fff;
+      border-radius: 1.7em;
+      box-shadow: 0 2px 20px #00336622;
+      padding: 1.2em 1.3em 1em 1.3em;
+      display: flex;
+      align-items: center;
+      gap: 2em;
+      max-width: 860px;
+    }
+
+    @media (max-width: 650px) {
+      body {
+        padding: 1em 0.2em;
+      }
+      .news-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .news-img {
+        width: 100%;
+        height: 160px;
+      }
+      .top-story-slide {
+        flex-direction: column;
+        gap: 0.8em;
+      }
+      .top-story-slide img {
+        width: 100% !important;
+        height: 170px !important;
+      }
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -361,150 +152,115 @@
   <div class="logo-area">
     <span class="logo">⚖️</span>
     <span class="sitename">LegalNewsIndia</span>
-    <label class="toggle-switch" title="Toggle dark mode">
-      <input type="checkbox" id="darkToggleSwitch" />
-      <span class="toggle-slider"></span>
-      <span class="toggle-moon">&#9789;</span>
-      <span class="toggle-sun">&#9728;</span>
-    </label>
   </div>
-
-  <div id="top-carousel"></div>
-
-  <div class="opportunity-section">
-    <h2>Opportunities Hub: Internships, Research, and More</h2>
-    <div class="opportunity-list">
-      <div class="opp-item">
-        <span class="opp-icon">💼</span>
-        <span class="opp-title">Internship Opportunities</span>
-        <a href="https://lawbhoomi.com/category/internships/" target="_blank" class="opp-link">LawBhoomi</a>
-        <a href="https://www.lawctopus.com/category/internship-experiences/" target="_blank" class="opp-link">Lawctopus</a>
-      </div>
-      <div class="opp-item">
-        <span class="opp-icon">📄</span>
-        <span class="opp-title">Call for Research Papers</span>
-        <a href="https://lawbhoomi.com/category/calls-for-papers/" target="_blank" class="opp-link">LawBhoomi</a>
-        <a href="https://www.lawctopus.com/category/call-for-papers/" target="_blank" class="opp-link">Lawctopus</a>
-      </div>
-      <div class="opp-item">
-        <span class="opp-icon">📢</span>
-        <span class="opp-title">Other Opportunities</span>
-        <a href="https://lawbhoomi.com/category/competitions/" target="_blank" class="opp-link">Competitions (LawBhoomi)</a>
-        <a href="https://www.lawctopus.com/category/misc/" target="_blank" class="opp-link">Misc (Lawctopus)</a>
-      </div>
-    </div>
-  </div>
-
   <div id="statusMsg"></div>
-  <input type="text" id="searchBar" placeholder="Search news by keywords or date (YYYY-MM-DD)..." autocomplete="off" />
+  <div id="top-carousel"></div>
+  <input
+    type="text"
+    id="searchBar"
+    placeholder="Search news by keywords or date (YYYY-MM-DD)..."
+    autocomplete="off"
+  />
   <div id="law-news">Loading news...</div>
   <script>
-    // Modern dark mode toggle
-    const darkSwitch = document.getElementById("darkToggleSwitch");
-    function setDarkMode(state) {
-      document.body.classList.toggle("dark-mode", state);
-      localStorage.setItem("dark-mode", state ? "1" : "");
-      darkSwitch.checked = state;
-    }
-    darkSwitch.onchange = () => { setDarkMode(darkSwitch.checked); };
-    (function() { if(localStorage.getItem("dark-mode")) setDarkMode(true); })();
-
     const supabase_url = "https://xddssiompemprjbnxxlf.supabase.co";
     const supabase_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkZHNzaW9tcGVtcHJqYm54eGxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyMDczNzcsImV4cCI6MjA3Mzc4MzM3N30.QHjF8xdFYp6ex1YW2XV6GkKvPZXNp1biImoQIZdSMG4";
     const supabase = window.supabase.createClient(supabase_url, supabase_key);
+
     const feeds = [
       { url: "https://www.barandbench.com/feed" },
       { url: "https://www.livelaw.in/rss/law" },
       { url: "https://www.scconline.com/blog/post/category/news/feed/" },
       { url: "https://indialegallive.com/feed/" },
       { url: "https://lawbeat.in/rss.xml" },
-      { url: "https://www.latestlaws.com/feed/" }
+      { url: "https://www.latestlaws.com/feed/" },
+      { url: "https://www.verdictum.in/feed/" },
     ];
+
     const rss2json = (url) =>
       `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
+
     let allNews = [];
-    let currentSearch = "";
 
     function setStatus(msg) {
       document.getElementById("statusMsg").textContent = msg || "";
     }
+
     function cleanDesc(desc) {
       if (!desc) return "";
       const text = desc.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
       return text.length > 180 ? text.slice(0, 180) + "..." : text;
     }
+
     function getImg(item) {
       return item.thumbnail || (item.enclosure && item.enclosure.link) || "";
     }
-    // Only this week's news
+
+    // Get news from last 7 days including today
     function getWeekStories(news) {
       const now = new Date();
       const sevenDaysAgo = new Date(now);
       sevenDaysAgo.setDate(now.getDate() - 6);
+
       const startDate = new Date(sevenDaysAgo.getFullYear(), sevenDaysAgo.getMonth(), sevenDaysAgo.getDate());
       const endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+
       return news.filter((item) => {
         if (!item.pubdate) return false;
         const d = new Date(item.pubdate);
         return d >= startDate && d < endDate;
       });
     }
+
     function formatPubDate(pubdate) {
       if (!pubdate) return "";
       let d = new Date(pubdate);
       return d.toLocaleString();
     }
-    // TOP STORY: Colorful card, badge, big font, arrow nav, auto "Featured" if property present
+
     function renderTopCarousel(topStories) {
       const container = document.getElementById("top-carousel");
       if (!topStories || !topStories.length) {
         container.innerHTML = "";
         return;
       }
-      // Show only Supreme Court news or anything with 'featured: true'
-      let weekSupreme = topStories.filter(n=>
-        ((n.featured && n.featured===true) || ((n.title||"").toLowerCase().includes("supreme court")))
-      );
-      if(weekSupreme.length===0) weekSupreme = topStories;
       let slideIdx = 0;
-      function getImgOrPlaceholder(story) {
-        if(story.thumbnail || (story.enclosure && story.enclosure.link)) {
-          return `<img class="top-story-img" src="${getImg(story)}" alt="Top story image" />`;
-        }
-        return `<div class="top-story-placeholder">No Image<br>Available</div>`;
-      }
       function showSlide(n) {
-        const story = weekSupreme[n];
+        const story = topStories[n];
+        let img = getImg(story);
         container.innerHTML = `
-          <div class="top-story-highlight">
-            ${story.featured?'<div class="top-story-featured-badge">Featured</div>':''}
-            <div class="top-story-ribbon">WEEK'S TOP STORY</div>
-            <button class="top-story-arrow left" id="prevSlide">&#8592;</button>
-            ${getImgOrPlaceholder(story)}
-            <div class="top-story-content">
-              <span class="top-story-meta">
-                ${(story.title||'').toLowerCase().includes('supreme court') ? "Supreme Court" : "Top News"} • ${formatPubDate(story.pubdate)}
-              </span>
-              <div class="top-story-title">${story.title}</div>
-              <div class="top-story-snippet">${cleanDesc(story.description || story.content || "")}</div>
-              <a class="top-story-link" href="${story.link}" target="_blank">Read More &rarr;</a>
+          <div class="top-story-slide">
+            ${
+              img
+                ? `<img src="${img}" style="width:120px;height:120px;object-fit:cover;border-radius:1em;border:1.7px solid #eee;flex-shrink:0;">`
+                : ""
+            }
+            <div style="flex:1">
+              <div style="color:#B30348; font-weight:700; font-size:1.14em;margin-bottom:0.17em;">This Week's Top Story</div>
+              <a href="${story.link}" target="_blank" style="color:#244e86;font-size:1.3em;font-weight:700;text-decoration:underline;display:block;">
+                ${story.title}
+              </a>
+              <div style="font-size:0.85em; color:#666;">${formatPubDate(story.pubdate)}</div>
+              <div style="color:#212121;font-size:1.04em;margin-top:0.25em;">
+                ${cleanDesc(story.description || story.content || "")}
+              </div>
             </div>
-            <button class="top-story-arrow right" id="nextSlide">&#8594;</button>
           </div>
         `;
-        document.getElementById("prevSlide").onclick = () => {
-          slideIdx = (slideIdx - 1 + weekSupreme.length) % weekSupreme.length;
-          showSlide(slideIdx);
-        };
-        document.getElementById("nextSlide").onclick = () => {
-          slideIdx = (slideIdx + 1) % weekSupreme.length;
-          showSlide(slideIdx);
-        };
       }
       showSlide(slideIdx);
+      if (topStories.length > 1) {
+        setInterval(() => {
+          slideIdx = (slideIdx + 1) % topStories.length;
+          showSlide(slideIdx);
+        }, 6000);
+      }
     }
+
     function renderGroupedNews(news) {
-      let articles = [], supreme_court_cases = [], high_court_cases = [];
+      let articles = [],
+        supreme_court_cases = [],
+        high_court_cases = [];
       news.forEach((item) => {
         const h = (item.title || "").toLowerCase();
         if (h.includes("supreme court")) {
@@ -515,58 +271,47 @@
           articles.push(item);
         }
       });
+
       function renderSection(title, group) {
         if (!group.length) return "";
         let html = `<h2>${title}</h2>`;
         group.forEach((item) => {
           const img = getImg(item);
           html += `<div class="news-card">
-            ${img ? `<img class="news-img" src="${img}" loading="lazy" alt="news photo">` : ""}
+            ${
+              img
+                ? `<img class="news-img" src="${img}" loading="lazy" alt="news photo">`
+                : ""
+            }
             <div class="news-content">
               <a href="${item.link}" target="_blank">${item.title}</a>
-              <div style="font-size:0.85em; color:#666;">${formatPubDate(item.pubdate)}</div>
+              <div style="font-size:0.85em; color:#666;">${formatPubDate(
+                item.pubdate
+              )}</div>
               <div class="desc">${cleanDesc(item.description || item.content || "")}</div>
             </div>
           </div>`;
         });
         return html;
       }
+
       let html =
         renderSection("Supreme Court Cases", supreme_court_cases) +
         renderSection("High Court Cases", high_court_cases) +
         renderSection("Other Articles", articles);
+
       if (!html.trim()) html = "<p>No news found for your search.</p>";
+
       document.getElementById("law-news").innerHTML = html;
     }
-    function renderApp() {
-      let topNews = getWeekStories(allNews);
-      renderTopCarousel(topNews);
-      let filtered = getWeekStories(allNews);
-      if(currentSearch) {
-        if(/^\d{4}-\d{2}-\d{2}$/.test(currentSearch)) {
-          filtered = filtered.filter((item) => {
-            if (!item.pubdate) return false;
-            const d = new Date(item.pubdate);
-            const ymd = d.toISOString().split("T")[0];
-            return ymd === currentSearch;
-          });
-        } else {
-          const q = currentSearch.toLowerCase();
-          filtered = filtered.filter(
-            (item) =>
-              (item.title && item.title.toLowerCase().includes(q)) ||
-              (item.description && item.description.toLowerCase().includes(q))
-          );
-        }
-      }
-      renderGroupedNews(filtered);
-      setStatus("");
-    }
+
     async function getAllNews() {
       setStatus("Loading archive...");
       let { data: news, error } = await supabase
-        .from("news").select("*")
-        .order("pubdate", { ascending: false }).limit(300);
+        .from("news")
+        .select("*")
+        .order("pubdate", { ascending: false })
+        .limit(300);
       if (error) {
         setStatus("Supabase error: " + error.message);
         news = [];
@@ -574,20 +319,38 @@
         setStatus("No news found in database.");
         news = [];
       }
+
       allNews = news;
-      renderApp();
+      const weekNews = getWeekStories(allNews).sort(
+        (a, b) => new Date(b.pubdate) - new Date(a.pubdate)
+      );
+
+      renderTopCarousel(weekNews);
+      renderGroupedNews(weekNews);
+      setStatus(""); // Clear status
     }
+
     async function insertLatestNews(newsArray) {
       for (const item of newsArray) {
         let { data: existing } = await supabase
-          .from("news").select("id")
-          .eq("link", item.link).maybeSingle();
+          .from("news")
+          .select("id")
+          .eq("link", item.link)
+          .maybeSingle();
         if (!existing) {
           let { error } = await supabase.from("news").insert([item]);
-          if (error) setStatus("Insert error: " + error.message);
+          if (error) {
+            setStatus("Insert error: " + error.message);
+          }
         }
       }
     }
+
+    // Helper to detect if a value is a date string (YYYY-MM-DD)
+    function isDateQuery(str) {
+      return /^\d{4}-\d{2}-\d{2}$/.test(str);
+    }
+
     async function fetchAndStoreNews() {
       setStatus("Fetching latest news feeds...");
       try {
@@ -603,13 +366,13 @@
                   pubdate: item.pubDate || null,
                   thumbnail: item.thumbnail || "",
                   enclosure: item.enclosure || null,
-                  featured: item.featured || false // customize as needed
                 }))
               )
               .catch(() => [])
           )
         );
         const freshNews = results.flat();
+
         await insertLatestNews(freshNews);
         await getAllNews();
       } catch (e) {
@@ -617,12 +380,47 @@
         document.getElementById("law-news").innerHTML = "Failed: " + e;
       }
     }
+
     getAllNews();
     fetchAndStoreNews();
     setInterval(fetchAndStoreNews, 300000);
+
     document.getElementById("searchBar").addEventListener("input", function () {
-      currentSearch = this.value.trim().toLowerCase();
-      renderApp();
+      const q = this.value.trim().toLowerCase();
+
+      if (!q) {
+        // Show week's news only when search is cleared
+        const weekNews = getWeekStories(allNews).sort(
+          (a, b) => new Date(b.pubdate) - new Date(a.pubdate)
+        );
+        renderTopCarousel(weekNews);
+        renderGroupedNews(weekNews);
+        setStatus("");
+        return;
+      }
+
+      // If query matches a date YYYY-MM-DD, filter news by that date, else search keywords in title or description
+      let filtered = [];
+      if (isDateQuery(q)) {
+        filtered = allNews.filter((item) => {
+          if (!item.pubdate) return false;
+          const d = new Date(item.pubdate);
+          const ymd = d.toISOString().split("T")[0];
+          return ymd === q;
+        });
+      } else {
+        filtered = allNews.filter(
+          (item) =>
+            (item.title && item.title.toLowerCase().includes(q)) ||
+            (item.description && item.description.toLowerCase().includes(q))
+        );
+      }
+      filtered.sort((a, b) => new Date(b.pubdate) - new Date(a.pubdate));
+
+      // Hide carousel when searching
+      renderTopCarousel([]);
+      renderGroupedNews(filtered);
+      setStatus(filtered.length ? "" : "No news found for your search.");
     });
   </script>
 </body>
