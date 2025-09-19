@@ -1,31 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>LegalNews - Law News</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body { background: #f4f7fa; font-family: Arial, sans-serif; margin: 0; padding: 2em 10vw; }
-    .logo-area { display: flex; align-items: center; margin-bottom: 1em; gap: 0.7em; }
-    .logo { font-size: 2.3em; border-radius:50%; background:#244e86; color:#fff; width:2em; height:2em; display:inline-flex;align-items:center;justify-content:center; }
-    .sitename { font-size: 1.7em; font-weight:700;color:#244e86; }
-    #top-carousel { margin-bottom: 1em; }
-    #searchBar { width:340px; padding:1em; font-size:1.1em; border:2px solid #4670ab; border-radius: 8px; box-shadow:0 2px 14px #00336615; margin-bottom:2em; display:block; margin-left:auto; margin-right:auto; }
-    #law-news { max-width:850px; margin-left:auto; margin-right:auto; }
-    .news-card { background: white; box-shadow:0 2px 12px #244e8620; border-radius:12px; padding:1.2em; margin-bottom:1.3em; display:flex; flex-direction:row; align-items:flex-start; gap:1.3em;}
-    .news-img { width:90px; height:90px; object-fit:cover; border-radius:8px; border:1px solid #eee; background:#f6f9fc; flex-shrink:0;}
-    .news-content { flex:1; }
-    .news-content a { color:#1155cc;font-weight:600;text-decoration:underline;font-size:1.17em; }
-    .desc { color:#202020; font-size:0.98em; margin-top:0.23em; margin-bottom:0.8em; line-height:1.6; }
-    #statusMsg { color: #b00; margin-bottom: 1em; text-align: center; font-size: 1.07em; }
-    h2 { color: #244e86; margin-top: 1.5em; }
-    .top-story-slide { background:#fff;border-radius:1.7em;box-shadow:0 2px 20px #00336622;padding:1.2em 1.3em 1em 1.3em;display:flex;align-items:center;gap:2em;max-width:860px; }
-    @media (max-width:650px){
-      body{padding:1em 0.2em;}
-      .news-card{flex-direction:column; align-items:flex-start;}
-      .news-img{width:100%;height:160px;}
-      .top-story-slide {flex-direction:column;gap:0.8em;}
-      .top-story-slide img{width:100% !important; height:170px !important;}
+    body {
+      background: #f4f7fa;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 2em 10vw;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1em;
+      gap: 0.7em;
+    }
+
+    .logo {
+      font-size: 2.3em;
+      border-radius: 50%;
+      background: #244e86;
+      color: #fff;
+      width: 2em;
+      height: 2em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sitename {
+      font-size: 1.7em;
+      font-weight: 700;
+      color: #244e86;
+    }
+
+    #top-carousel {
+      margin-bottom: 1em;
+    }
+
+    #searchBar {
+      width: 340px;
+      padding: 1em;
+      font-size: 1.1em;
+      border: 2px solid #4670ab;
+      border-radius: 8px;
+      box-shadow: 0 2px 14px #00336615;
+      margin-bottom: 2em;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #law-news {
+      max-width: 850px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .news-card {
+      background: white;
+      box-shadow: 0 2px 12px #244e8620;
+      border-radius: 12px;
+      padding: 1.2em;
+      margin-bottom: 1.3em;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 1.3em;
+    }
+
+    .news-img {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #eee;
+      background: #f6f9fc;
+      flex-shrink: 0;
+    }
+
+    .news-content {
+      flex: 1;
+    }
+
+    .news-content a {
+      color: #1155cc;
+      font-weight: 600;
+      text-decoration: underline;
+      font-size: 1.17em;
+    }
+
+    .desc {
+      color: #202020;
+      font-size: 0.98em;
+      margin-top: 0.23em;
+      margin-bottom: 0.8em;
+      line-height: 1.6;
+    }
+
+    #statusMsg {
+      color: #b00;
+      margin-bottom: 1em;
+      text-align: center;
+      font-size: 1.07em;
+    }
+
+    h2 {
+      color: #244e86;
+      margin-top: 1.5em;
+    }
+
+    .top-story-slide {
+      background: #fff;
+      border-radius: 1.7em;
+      box-shadow: 0 2px 20px #00336622;
+      padding: 1.2em 1.3em 1em 1.3em;
+      display: flex;
+      align-items: center;
+      gap: 2em;
+      max-width: 860px;
+    }
+
+    @media (max-width: 650px) {
+      body {
+        padding: 1em 0.2em;
+      }
+      .news-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .news-img {
+        width: 100%;
+        height: 160px;
+      }
+      .top-story-slide {
+        flex-direction: column;
+        gap: 0.8em;
+      }
+      .top-story-slide img {
+        width: 100% !important;
+        height: 170px !important;
+      }
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -37,11 +155,17 @@
   </div>
   <div id="statusMsg"></div>
   <div id="top-carousel"></div>
-  <input type="text" id="searchBar" placeholder="Search news..." autocomplete="off" />
-  <div id="law-news">Fetching news...</div>
+  <input
+    type="text"
+    id="searchBar"
+    placeholder="Search news by keywords or date (YYYY-MM-DD)..."
+    autocomplete="off"
+  />
+  <div id="law-news">Loading news...</div>
   <script>
     const supabase_url = "https://xddssiompemprjbnxxlf.supabase.co";
-    const supabase_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkZHNzaW9tcGVtcHJqYm54eGxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyMDczNzcsImV4cCI6MjA3Mzc4MzM3N30.QHjF8xdFYp6ex1YW2XV6GkKvPZXNp1biImoQIZdSMG4";
+    const supabase_key =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkZHNzaW9tcGVtcmpYm54eGxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyMDczNzcsImV4cCI6MjA3Mzc4MzM3N30.QHjF8xdFYp6ex1YW2XV6GkKvPZXNp1biImoQIZdSMG4";
     const supabase = window.supabase.createClient(supabase_url, supabase_key);
 
     const feeds = [
@@ -50,32 +174,49 @@
       { url: "https://www.scconline.com/blog/post/category/news/feed/" },
       { url: "https://indialegallive.com/feed/" },
       { url: "https://lawbeat.in/rss.xml" },
-      { url: "https://www.latestlaws.com/feed/" }
+      { url: "https://www.latestlaws.com/feed/" },
     ];
-    const rss2json = url => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
+
+    const rss2json = (url) =>
+      `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
+
     let allNews = [];
+
     function setStatus(msg) {
-      document.getElementById('statusMsg').textContent = msg || '';
+      document.getElementById("statusMsg").textContent = msg || "";
     }
+
     function cleanDesc(desc) {
       if (!desc) return "";
-      const text = desc.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+      const text = desc.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
       return text.length > 180 ? text.slice(0, 180) + "..." : text;
     }
+
     function getImg(item) {
-      return (item.thumbnail || (item.enclosure && item.enclosure.link) || "");
+      return item.thumbnail || (item.enclosure && item.enclosure.link) || "";
     }
+
     function getTodayStories(news) {
       const now = new Date();
       const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      return news.filter(item => {
+      const endOfDay = new Date(startOfDay);
+      endOfDay.setDate(endOfDay.getDate() + 1);
+
+      return news.filter((item) => {
         if (!item.pubdate) return false;
         let d = new Date(item.pubdate);
-        return d >= startOfDay;
+        return d >= startOfDay && d < endOfDay;
       });
     }
+
+    function formatPubDate(pubdate) {
+      if (!pubdate) return "";
+      let d = new Date(pubdate);
+      return d.toLocaleString();
+    }
+
     function renderTopCarousel(topStories) {
-      const container = document.getElementById('top-carousel');
+      const container = document.getElementById("top-carousel");
       if (!topStories || !topStories.length) {
         container.innerHTML = "";
         return;
@@ -86,63 +227,87 @@
         let img = getImg(story);
         container.innerHTML = `
           <div class="top-story-slide">
-            ${img ? `<img src="${img}" style="width:120px;height:120px;object-fit:cover;border-radius:1em;border:1.7px solid #eee;flex-shrink:0;">` : ""}
+            ${
+              img
+                ? `<img src="${img}" style="width:120px;height:120px;object-fit:cover;border-radius:1em;border:1.7px solid #eee;flex-shrink:0;">`
+                : ""
+            }
             <div style="flex:1">
               <div style="color:#B30348; font-weight:700; font-size:1.14em;margin-bottom:0.17em;">Today's Top Story</div>
-              <a href="${story.link}" target="_blank" style="color:#244e86;font-size:1.3em;font-weight:700;text-decoration:underline;display:block;">${story.title}</a>
-              <div style="color:#212121;font-size:1.04em;margin-top:0.25em;">${cleanDesc(story.description || story.content || "")}</div>
+              <a href="${story.link}" target="_blank" style="color:#244e86;font-size:1.3em;font-weight:700;text-decoration:underline;display:block;">
+                ${story.title}
+              </a>
+              <div style="font-size:0.85em; color:#666;">${formatPubDate(story.pubdate)}</div>
+              <div style="color:#212121;font-size:1.04em;margin-top:0.25em;">
+                ${cleanDesc(story.description || story.content || "")}
+              </div>
             </div>
           </div>
         `;
       }
       showSlide(slideIdx);
       if (topStories.length > 1) {
-        let intervalId = setInterval(() => {
+        setInterval(() => {
           slideIdx = (slideIdx + 1) % topStories.length;
           showSlide(slideIdx);
         }, 6000);
       }
     }
+
     function renderGroupedNews(news) {
-      let articles = [], supreme_court_cases = [], high_court_cases = [];
-      news.forEach(item => {
+      let articles = [],
+        supreme_court_cases = [],
+        high_court_cases = [];
+      news.forEach((item) => {
         const h = (item.title || "").toLowerCase();
-        if (h.includes('supreme court')) {
+        if (h.includes("supreme court")) {
           supreme_court_cases.push(item);
-        } else if (h.includes('high court') || h.includes('hc')) {
+        } else if (h.includes("high court") || h.includes("hc")) {
           high_court_cases.push(item);
         } else {
           articles.push(item);
         }
       });
-      let html = "";
-      function section(title, group){
-        if(group.length){
-          html += `<h2>${title}</h2>`;
-          group.forEach(item=>{
-            const img = getImg(item);
-            html += `<div class="news-card">
-              ${img ? `<img class="news-img" src="${img}" loading="lazy" alt="news photo">` : ""}
-              <div class="news-content">
-                <a href="${item.link}" target="_blank">${item.title}</a>
-                <div class="desc">${cleanDesc(item.description || item.content || "")}</div>
-              </div>
-            </div>`;
-          });
-        }
+
+      function renderSection(title, group) {
+        if (!group.length) return "";
+        let html = `<h2>${title}</h2>`;
+        group.forEach((item) => {
+          const img = getImg(item);
+          html += `<div class="news-card">
+            ${
+              img
+                ? `<img class="news-img" src="${img}" loading="lazy" alt="news photo">`
+                : ""
+            }
+            <div class="news-content">
+              <a href="${item.link}" target="_blank">${item.title}</a>
+              <div style="font-size:0.85em; color:#666;">${formatPubDate(
+                item.pubdate
+              )}</div>
+              <div class="desc">${cleanDesc(item.description || item.content || "")}</div>
+            </div>
+          </div>`;
+        });
+        return html;
       }
-      section("Supreme Court Cases", supreme_court_cases);
-      section("High Court Cases", high_court_cases);
-      section("Other Articles", articles);
-      if(!html) html = "<p>No news found for your search.</p>";
-      document.getElementById('law-news').innerHTML = html;
+
+      let html =
+        renderSection("Supreme Court Cases", supreme_court_cases) +
+        renderSection("High Court Cases", high_court_cases) +
+        renderSection("Other Articles", articles);
+
+      if (!html.trim()) html = "<p>No news found for your search.</p>";
+
+      document.getElementById("law-news").innerHTML = html;
     }
+
     async function getAllNews() {
       setStatus("Loading archive...");
       let { data: news, error } = await supabase
-        .from('news')
-        .select('*')
-        .order('pubdate', { ascending: false })
+        .from("news")
+        .select("*")
+        .order("pubdate", { ascending: false })
         .limit(300);
       if (error) {
         setStatus("Supabase error: " + error.message);
@@ -151,73 +316,111 @@
         setStatus("No news found in database.");
         news = [];
       }
+
       allNews = news;
-      renderTopCarousel(getTodayStories(allNews));
-      renderGroupedNews(allNews);
+      const todayNews = getTodayStories(allNews).sort(
+        (a, b) => new Date(b.pubdate) - new Date(a.pubdate)
+      );
+
+      renderTopCarousel(todayNews);
+      renderGroupedNews(todayNews);
+      setStatus(""); // Clear status
     }
+
     async function insertLatestNews(newsArray) {
       for (const item of newsArray) {
         let { data: existing } = await supabase
-          .from('news')
-          .select('id')
-          .eq('link', item.link)
+          .from("news")
+          .select("id")
+          .eq("link", item.link)
           .maybeSingle();
         if (!existing) {
-          let { error } = await supabase
-            .from('news')
-            .insert([item]);
+          let { error } = await supabase.from("news").insert([item]);
           if (error) {
             setStatus("Insert error: " + error.message);
           }
         }
       }
     }
+
+    // Helper to detect if a value is a date string (YYYY-MM-DD)
+    function isDateQuery(str) {
+      return /^\d{4}-\d{2}-\d{2}$/.test(str);
+    }
+
     async function fetchAndStoreNews() {
       setStatus("Fetching latest news feeds...");
-      Promise.all(
-        feeds.map(feed =>
-          fetch(rss2json(feed.url))
-          .then(res => res.json())
-          .then(data =>
-            (data.items || []).map(item => ({
-              title: item.title,
-              link: item.link,
-              description: item.description || item.content || "",
-              pubdate: item.pubDate || null,
-              thumbnail: item.thumbnail || "",
-              enclosure: item.enclosure || null
-            }))
+      try {
+        const results = await Promise.all(
+          feeds.map((feed) =>
+            fetch(rss2json(feed.url))
+              .then((res) => res.json())
+              .then((data) =>
+                (data.items || []).map((item) => ({
+                  title: item.title,
+                  link: item.link,
+                  description: item.description || item.content || "",
+                  pubdate: item.pubDate || null,
+                  thumbnail: item.thumbnail || "",
+                  enclosure: item.enclosure || null,
+                }))
+              )
+              .catch(() => [])
           )
-          .catch(() => [])
-        )
-      ).then(async results => {
+        );
         const freshNews = results.flat();
+
         await insertLatestNews(freshNews);
         await getAllNews();
-      }).catch(e => {
+      } catch (e) {
         setStatus("Failed news fetch: " + e);
-        document.getElementById('law-news').innerHTML = "Failed: " + e;
-      });
+        document.getElementById("law-news").innerHTML = "Failed: " + e;
+      }
     }
+
     getAllNews();
     fetchAndStoreNews();
     setInterval(fetchAndStoreNews, 300000);
-    document.getElementById('searchBar').addEventListener('input', function() {
+
+    document.getElementById("searchBar").addEventListener("input", function () {
       const q = this.value.trim().toLowerCase();
+
       if (!q) {
-        renderTopCarousel(getTodayStories(allNews));
-        renderGroupedNews(allNews);
+        // Show today's news only when search is cleared
+        const todayNews = getTodayStories(allNews).sort(
+          (a, b) => new Date(b.pubdate) - new Date(a.pubdate)
+        );
+        renderTopCarousel(todayNews);
+        renderGroupedNews(todayNews);
+        setStatus("");
         return;
       }
-      const filtered = allNews.filter(
-        item =>
-          (item.title && item.title.toLowerCase().includes(q))
-          || (item.description && item.description.toLowerCase().includes(q))
-      );
+
+      // If query matches a date YYYY-MM-DD, filter news by that date, else search keywords in title or description
+      let filtered = [];
+      if (isDateQuery(q)) {
+        filtered = allNews.filter((item) => {
+          if (!item.pubdate) return false;
+          const d = new Date(item.pubdate);
+          // Match exact date ignoring time
+          const ymd = d.toISOString().split("T")[0];
+          return ymd === q;
+        });
+      } else {
+        filtered = allNews.filter(
+          (item) =>
+            (item.title && item.title.toLowerCase().includes(q)) ||
+            (item.description && item.description.toLowerCase().includes(q))
+        );
+      }
+      filtered.sort((a, b) => new Date(b.pubdate) - new Date(a.pubdate));
+
       // Hide carousel when searching
       renderTopCarousel([]);
       renderGroupedNews(filtered);
+      setStatus(filtered.length ? "" : "No news found for your search.");
     });
   </script>
 </body>
-</html>
+  </html>
+  
