@@ -314,3 +314,55 @@ document.getElementById("searchBar").addEventListener("input", function () {
   renderApp();
 });
 
+// Determine if a news item is 'breaking' (published today)
+function isBreaking(item) {
+  const today = new Date().toISOString().slice(0,10);
+  return (item.pubdate && item.pubdate.startsWith(today));
+}
+
+// In your renderSection or where you build news cards:
+function renderSection(title, group) {
+  if (!group.length) return "";
+  let html = `<h2>${title}</h2>`;
+  group.forEach((item) => {
+    const img = getImg(item);
+    // Badge for breaking news
+    const breakingMark = isBreaking(item) ? '<span class="badge">Breaking</span>' : '';
+    html += `<div class="news-card${isBreaking(item) ? ' breaking' : ''}">
+      ${breakingMark}
+      ${img ? `<img class="news-img" src="${img}" loading="lazy" alt="news photo">` : ""}
+      <div class="news-content">
+        <a href="${item.link}" target="_blank">${item.title}</a>
+        <div style="font-size:0.85em; color:#666;">${formatPubDate(item.pubdate)}</div>
+        <div class="desc">${cleanDesc(item.description || item.content || "")}</div>
+      </div>
+    </div>`;
+  });
+  return html;
+}
+
+// Browser Notification for new legal news
+if ("Notification" in window && Notification.permission !== "denied") {
+  Notification.requestPermission().then(permission => {
+    if (permission === "granted") {
+      new Notification("New Legal News Arrived!", {
+        body: "Click to view the latest legal stories.",
+        icon: "favicon.ico"
+      });
+    }
+  });
+}
+// Register service worker for PWA/offline mode
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js')
+    .then(() => console.log("Service Worker Registered!"))
+    .catch(err => console.error("Service Worker Registration Failed:", err));
+}
+// ...your existing code...
+
+// Register service worker for PWA/offline mode
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js')
+    .then(() => console.log("Service Worker Registered!"))
+    .catch(err => console.error("Service Worker Registration Failed:", err));
+}
