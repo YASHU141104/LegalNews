@@ -4,41 +4,78 @@
   <meta charset="UTF-8" />
   <title>LegalNewsIndia - Law News</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- MAIN STYLESHEET -->
+  <!-- MAIN STYLESHEET: Contains all site CSS -->
   <link rel="stylesheet" href="style.css" />
-
-  <!-- SUPABASE LIBRARY (DON'T REMOVE) -->
+  <!-- SUPABASE LIBRARY (Required for database features) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Favicon for browser tabs -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <!-- Progressive Web App manifest -->
+<link rel="manifest" href="manifest.json">
 </head>
 <body>
-  <!-- ====== HEADER ====== -->
-  <div class="logo-area">
-    <span class="logo">⚖️</span>
-    <span class="sitename">LegalNewsIndia</span>
-    <button class="dark-toggle-btn" id="darkToggleBtn" title="Toggle dark mode">Dark Mode</button>
+  <!--
+    HEADER SECTION
+    --------------
+    Includes logo, site title (h1), and dark mode toggle button.
+    All key controls have aria-labels for accessibility.
+  -->
+  <div class="logo-area" aria-label="Site header">
+    <span class="logo" aria-label="Scales of justice icon">⚖️</span>
+    <h1 class="sitename" style="display:inline;" aria-label="Site name">LegalNewsIndia</h1>
+    <button class="dark-toggle-btn" id="darkToggleBtn" aria-label="Toggle dark mode">Dark Mode</button>
   </div>
-
-  <!-- ====== CATEGORY TABS ====== -->
-  <div class="tabs" id="categoryTabs">
-    <button class="tab-btn active" data-category="all">All</button>
-    <button class="tab-btn" data-category="supreme">Supreme Court</button>
-    <button class="tab-btn" data-category="high">High Court</button>
-    <button class="tab-btn" data-category="other">Other</button>
+  <!--
+    CATEGORY TABS
+    -------------
+    Let users switch between news groups.
+    aria-label improves accessibility for screen readers.
+  -->
+  <div class="tabs" id="categoryTabs" aria-label="News category selection tabs">
+    <button class="tab-btn active" data-category="all" aria-label="Show all news">All</button>
+    <button class="tab-btn" data-category="supreme" aria-label="Show Supreme Court news">Supreme Court</button>
+    <button class="tab-btn" data-category="high" aria-label="Show High Court news">High Court</button>
+    <button class="tab-btn" data-category="other" aria-label="Show other court news">Other</button>
   </div>
-
-  <!-- High Court Sub-tabs (injected by JS) -->
-  <div class="hc-tabs" id="highCourtTabs" style="display:none"></div>
-
-  <!-- ====== STATUS & SEARCH ====== -->
-  <div id="statusMsg"></div>
-  <div id="top-carousel"></div>
-  <input type="text" id="searchBar" placeholder="Search news by keywords or date (YYYY-MM-DD)..." autocomplete="off" />
-
-  <!-- ====== NEWS LIST ====== -->
-  <div id="law-news">Loading news...</div>
-
-  <!-- MAIN APP LOGIC -->
+  <!--
+    HIGH COURT SUB-TABS (injected by JavaScript)
+    --------------------------------------------
+    Will show only when High Court tab is selected.
+  -->
+  <div class="hc-tabs" id="highCourtTabs" style="display:none" aria-label="High Court filter tabs"></div>
+  <!--
+    STATUS AND TOP CAROUSEL
+    -----------------------
+    Status messages and featured (carousel) stories area, with accessibility labels.
+    aria-live="polite" announces changes to users of assistive technology.
+  -->
+  <div id="statusMsg" aria-live="polite"></div>
+  <div id="top-carousel" aria-label="Highlighted stories carousel"></div>
+  <!--
+    SEARCH BAR
+    ----------
+    Lets users search news by keyword or date.
+    aria-label provides a clear name for screen readers.
+  -->
+  <input 
+    type="text" 
+    id="searchBar" 
+    placeholder="Search news by keywords or date (YYYY-MM-DD)..." 
+    autocomplete="off"
+    aria-label="Search bar for legal news"
+  />
+  <!--
+    NEWS LIST
+    ---------
+    Main container for displaying all news articles.
+    aria-label clarifies region for screen readers.
+  -->
+  <div id="law-news" aria-label="News articles list">Loading news...</div>
+  <!--
+    MAIN JAVASCRIPT LOGIC
+    ---------------------
+    Loads the application logic and event listeners for the page.
+  -->
   <script src="app.js"></script>
 </body>
 </html>
