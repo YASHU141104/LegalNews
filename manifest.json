@@ -1,11 +1,13 @@
 {
-  "name": "LegalNewsIndia",
-  "short_name": "LNI",
-  "start_url": ".",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "description": "Latest Indian legal news.",
+  "name": "LegalNewsIndia",                   // Full app name for install prompts
+  "short_name": "LNI",                        // Short name for homescreen or menu
+  "start_url": ".",                           // Where the PWA should start
+  "display": "standalone",                    // App-like, no browser chrome
+  "background_color": "#ffffff",              // Splash screen background color
+  "theme_color": "#244e86",                   // App bar/theme color (matches your site)
+  "description": "Latest Indian legal news, judgment updates, and analysis.", // For store listings
   "icons": [
-    { "src": "favicon.png", "sizes": "192x192", "type": "image/png" }
+    { "src": "favicon.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "favicon.png", "sizes": "512x512", "type": "image/png" }
   ]
 }
