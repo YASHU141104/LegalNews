@@ -98,3 +98,4 @@ self.addEventListener('message', event => {
   }
   // Place for future background sync or push notification logic
 });
+
